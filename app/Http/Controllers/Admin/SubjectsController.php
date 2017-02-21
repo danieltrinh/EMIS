@@ -9,8 +9,17 @@ use App\Subject;
 use Illuminate\Http\Request;
 use Session;
 
+use Zizaco\Entrust\Traits\EntrustUserTrait;
+
+
 class SubjectsController extends Controller
 {
+    use EntrustUserTrait;
+    public function __construct()
+    {
+          $this->middleware('role:admin|teacher|principle',['only' => ['show', 'index']]);
+          // $this->middleware('permission:manage-subjects');
+    }
 
     public function index()
     {

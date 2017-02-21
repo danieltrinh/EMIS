@@ -10,9 +10,9 @@
         padding: 0;
         width: 100%;
         height: 100%;
-        color: #B0BEC5;
+        /*color: #B0BEC5;*/
         display: table;
-        font-weight: 100;
+        font-weight: bold;
         font-family: 'Lato';
       }
 
@@ -44,7 +44,7 @@
     <div class="container">
       <div class="content">
         <div class="title">403</div>
-        <div class="quote">Forbidden.</div>
+        <div class="quote">YOU DO NOT HAVE PERMISSION TO ACCESS THIS PAGE</div>
         <div class="explanation">
           <br>
           <small>

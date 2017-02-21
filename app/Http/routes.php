@@ -15,6 +15,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::group(['middleware'=>'web'], function (){
+	Route::Auth();
+
+	Route::group(['prefix' => 'admin'], function() {
+
+		Route::resource('subjects', 'Admin\\SubjectsController');
+	});
+
+});
+
+		// Route::resource('subjects', 'Admin\\SubjectsController');
+
 Route::resource('admin/posts', 'Admin\\PostsController');
 Route::resource('admin/levels', 'Admin\\LevelsController');
 Route::resource('admin/grades', 'Admin\\GradesController');
@@ -22,7 +34,6 @@ Route::resource('admin/schools', 'Admin\\SchoolsController');
 
 Route::resource('admin/classrooms', 'Admin\\ClassroomsController');
 Route::resource('admin/teachers',  'Admin\\TeachersController');
-Route::resource('admin/subjects', 'Admin\\SubjectsController');
 Route::resource('admin/students', 'Admin\\StudentsController');
 Route::resource('admin/guardians', 'Admin\\GuardiansController');
 

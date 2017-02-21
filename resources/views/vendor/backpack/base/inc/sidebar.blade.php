@@ -27,8 +27,10 @@
           <li><a href="{{ url('admin/teachers') }}"><i class="fa fa-graduation-cap"></i> <span>Teachers</span></a></li>
           <li><a href="{{ url('admin/guardians') }}"><i class="fa fa-user"></i> <span>Guardians</span></a></li>
           {{-- <li><a href="{{ url('admin/grades') }}"><i class="fa fa-info-circle"></i> <span>Grades</span></a></li> --}}
+          
+          @if(Entrust::hasRole('admin'))
           <li><a href="{{ url('admin/subjects') }}"><i class="fa fa-book"></i> <span>Subjects</span></a></li>
-  
+          @endif
           <!-- ======================================= -->
           <li class="header">{{ trans('backpack::base.user') }}</li>
           <li><a href="{{ url('admin/logout') }}"><i class="fa fa-sign-out"></i> <span>{{ trans('backpack::base.logout') }}</span></a></li>
