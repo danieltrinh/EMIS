@@ -27,10 +27,15 @@
                         <div class="table-responsive">
                             <table class="table table-borderless">
                                 <tbody>
-                                    <tr>
-                                        <th>ID</th><td>{{ $grade->id }}</td>
-                                    </tr>
-                                    <tr><th> Name </th><td> {{ $grade->name }} </td></tr><tr><th> Level Id </th><td> {{ $grade->level_id }} </td></tr>
+                                    <tr><th> Name </th><td> Grade {{ $grade->name }} </td></tr>
+                                    <tr><th> Level </th><td> {{ $grade->level['name'] }} </td></tr>
+                                    <tr><th> Subject List </th>
+                                    <td> 
+                                    @foreach($grade->subjects as $subject)
+                                        {{ $subject->name }}
+                                        <br><hr>
+                                    @endforeach
+                                    </td></tr>
                                 </tbody>
                             </table>
                         </div>

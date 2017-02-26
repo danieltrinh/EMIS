@@ -14,18 +14,17 @@
                             <table class="table table-borderless">
                                 <thead>
                                     <tr>
-                                        <th>ID</th><th> Name </th><th> Level Id </th><th>Actions</th>
+                                        <th> Grade </th><th> Level Id </th><th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($grades as $item)
                                     <tr>
-                                        <td>{{ $item->id }}</td>
-                                        <td>{{ $item->name }}</td><td>{{ $item->level_id }}</td>
+                                        <td>{{ $item->name }}</td><td>{{ $item->level['name'] }}</td>
                                         <td>
                                             <a href="{{ url('/admin/grades/' . $item->id) }}" class="btn btn-success btn-xs" title="View Grade"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"/></a>
-                                            <a href="{{ url('/admin/grades/' . $item->id . '/edit') }}" class="btn btn-primary btn-xs" title="Edit Grade"><span class="glyphicon glyphicon-pencil" aria-hidden="true"/></a>
-                                            {!! Form::open([
+                                            {{-- <a href="{{ url('/admin/grades/' . $item->id . '/edit') }}" class="btn btn-primary btn-xs" title="Edit Grade"><span class="glyphicon glyphicon-pencil" aria-hidden="true"/></a> --}}
+{{--                                             {!! Form::open([
                                                 'method'=>'DELETE',
                                                 'url' => ['/admin/grades', $item->id],
                                                 'style' => 'display:inline'
@@ -35,8 +34,8 @@
                                                         'class' => 'btn btn-danger btn-xs',
                                                         'title' => 'Delete Grade',
                                                         'onclick'=>'return confirm("Confirm delete?")'
-                                                )) !!}
-                                            {!! Form::close() !!}
+                                                )) !!} --}}
+                                            {{-- {!! Form::close() !!} --}}
                                         </td>
                                     </tr>
                                 @endforeach

@@ -26,7 +26,7 @@
           <li><a href="{{ url('admin/students') }}"><i class="fa fa-child"></i> <span>Students</span></a></li>
           <li><a href="{{ url('admin/teachers') }}"><i class="fa fa-graduation-cap"></i> <span>Teachers</span></a></li>
           <li><a href="{{ url('admin/guardians') }}"><i class="fa fa-user"></i> <span>Guardians</span></a></li>
-          {{-- <li><a href="{{ url('admin/grades') }}"><i class="fa fa-info-circle"></i> <span>Grades</span></a></li> --}}
+          <li><a href="{{ url('admin/grades') }}"><i class="fa fa-info-circle"></i> <span>Grades</span></a></li>
           
           @if(Entrust::hasRole('admin'))
           <li><a href="{{ url('admin/subjects') }}"><i class="fa fa-book"></i> <span>Subjects</span></a></li>

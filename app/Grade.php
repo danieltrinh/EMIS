@@ -27,9 +27,13 @@ class Grade extends Model
      */
     protected $fillable = ['name', 'level_id'];
 
-    public function level_id()
+    public function level()
 	{
 		return $this->belongsTo('App\Level');
 	}
 	
+    public function subjects()
+    {
+        return $this->belongsToMany('App\Subject');
+    }
 }

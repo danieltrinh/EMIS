@@ -27,5 +27,9 @@ class Subject extends Model
      */
     protected $fillable = ['name', 'abbreviation'];
 
-    
+        public function grades()
+    {
+        return $this->belongsToMany('App\Grade');
+    }
+
 }
