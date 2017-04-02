@@ -81,4 +81,12 @@ class StudentsController extends Controller
 
         return redirect('admin/students');
     }
+
+    public function getCurrentGradeResult($grade,$student_id){
+              $result = \DB::select("SELECT * FROM student_subject
+                                        WHERE grade_id= $grade
+                                        and student_id = $student_id
+        ");
+      return $result;
+    }
 }

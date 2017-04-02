@@ -27,8 +27,9 @@ class Student extends Model
         return $this->belongsTo('App\School');
     }
 	
-    public function subjects()
+    public function student_subject()
     {
-        return $this->belongsToMany('App\Subject')->withPivot('grade_id','subject_id','s1_quizzes','s1_midterm','s1_final','s1_total','s2_quizzes','s2_midterm','s2_final','s2_total' ,'year_final','year');
+        return $this->belongsToMany('App\Subject')
+                    ->withPivot('grade_id','subject_id','student_id','s1_quizzes','s1_midterm','s1_final','s1_total','s2_quizzes','s2_midterm','s2_final','s2_total' ,'year_final','year');
     }
 }
