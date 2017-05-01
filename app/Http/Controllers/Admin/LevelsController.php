@@ -13,9 +13,15 @@ class LevelsController extends Controller
 {
     public function index()
     {
-        $levels = Level::paginate(25);
+        $relations = [
+            'levels' => \App\Level::get(),
+            'schools' => \App\School::get(),
+            'grades'  => \App\Grade::get(),
+            'classrooms' => \App\Classroom::get(),
+            'subjects' => \App\Subject::get(),
 
-        return view('admin.levels.index', compact('levels'));
+        ];
+        return view('admin.levels.index', $relations );
     }
 
 

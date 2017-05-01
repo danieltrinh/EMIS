@@ -40,7 +40,7 @@
 
     <!-- BackPack Base CSS -->
     <link rel="stylesheet" href="{{ asset('vendor/backpack/backpack.base.css') }}">
-
+    {{ HTML::style('css/style.css') }}
     @yield('after_styles')
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -50,27 +50,31 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body class="hold-transition {{ config('backpack.base.skin') }} sidebar-mini">
-    <!-- Site wrapper -->
+<body class="hold-transition {{ config('backpack.base.skin') }} sidebar-mini"><!-- Site wrapper -->
     <div class="wrapper">
 
       <header class="main-header">
         <!-- Logo -->
-        <a href="{{ url('') }}" class="logo">
+        <a href="{{ url('') }}" class="logo" style="height: auto;">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini">{!! config('backpack.base.logo_mini') !!}<img alt="logo" src="{{ asset('resources/assets/img/logo/emis.png') }}"></span>
+          <span class="logo-mini"><img alt="logo" src="{{ URL::to('/') }}/img/logo/emis.png" style="width: 50px"></span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg">{!! config('backpack.base.logo_lg') !!}</span>
+          <span class="logo-lg"><img alt="logo" src="{{ URL::to('/') }}/img/logo/emis.png" style="width: 100px"><b style="padding-left: 1rem">EIMS</b></span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
+          <div class="homepage_banner" style="display:inline; ">
+            <h3>Head of Education</h3>
+            <br>
+            <h2>Education Management Information System</h2>
+          </div>
           <!-- Sidebar toggle button-->
-          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+          {{-- <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">{{ trans('backpack::base.toggle_navigation') }}</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
-          </a>
+          </a> --}}
 
           @include('backpack::inc.menu')
         </nav>
@@ -83,21 +87,66 @@
       <!-- =============================================== -->
 
       <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-         @yield('header')
+      <div class="content-wrapper" style="min-height: 661px; margin-left: 0">
+      <!-- Content Header (Page header) -->
+      <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+          <li data-target="#myCarousel" data-slide-to="1"></li>
+          <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
 
-        <!-- Main content -->
-        <section class="content">
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+          <div class="item active">
+            <img src="./img/1.png" alt="Chania">
+          </div>
 
-          @yield('content')
+          <div class="item">
+            <img src="./img/2.jpg" alt="Chania">
+          </div>
 
-        </section>
-        <!-- /.content -->
+          <div class="item">
+            <img src="./img/3.jpg" alt="Flower">
+          </div>
+
+        </div>
+
+        <!-- Left and right controls -->
+        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+          <i class="fa fa-angle-left" aria-hidden="true"></i>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+          <i class="fa fa-angle-right" aria-hidden="true"></i>
+          <span class="sr-only">Next</span>
+        </a>
       </div>
+      <!-- Main content -->
+        <div class="container home_content">
+          <div class="row ">
+            <h2 style="font-weight: bold; margin-top: 0"> School System</h2>
+
+            <div class="col-md-4 level_home">
+              <img src="./img/111.jpg">
+              <h2>PRIMARY</h2>
+            </div>
+            <div class="col-md-4 level_home">
+              <img src="./img/222.jpg">
+              <h2>SECONDARY</h2>
+            </div>
+            <div class="col-md-4 level_home">
+              <img src="./img/333.jpg">
+              <h2>HIGHSCHOOL</h2>
+            </div>
+          </div>  
+    </div>
+      <!-- /.content -->
+    </div>
       <!-- /.content-wrapper -->
 
-      <footer class="main-footer">
+      <footer class="main-footer" style=" margin-left: 0">
        
         {{ config('backpack.base.developer_name') }}</a>.
       </footer>

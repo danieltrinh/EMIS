@@ -13,10 +13,9 @@ use App\Http\Requests;
 class AjaxController extends Controller
 {
     //
-       public function ajaxcall($id){
+       public function ajaxcall($sid,$gid){
 	// $cid = Input::get('cid');
-
-  	$classrooms= \App\Classroom::where('school_id','=',$id)->get(); 
+  	$classrooms= \App\Classroom::where('school_id','=',$sid)->where('grade_id','=',$gid)->get(); 
 
   	return \Response::json($classrooms);
 
@@ -36,6 +35,23 @@ class AjaxController extends Controller
 									WHERE G.level_id = ".$id);
 
   	return \Response::json($subjects);
+
+     }
+
+     public function ajaxschoolcall($id){
+
+        $schools= \App\School::where('level_id','=',$id)->get(); 
+
+        return \Response::json($schools);
+
+     }
+
+
+     public function ajaxgradecall($id){
+
+        $grades= \App\Grade::where('level_id','=',$id)->get(); 
+
+        return \Response::json($grades);
 
      }
 }

@@ -38,8 +38,12 @@ Route::resource('admin/students', 'Admin\\StudentsController');
 Route::resource('admin/guardians', 'Admin\\GuardiansController');
 
 // Route::post('/ajaxClass','AjaxController@index');
-Route::get('/ajax-classroom/{id}', 'AjaxController@ajaxcall');
+Route::get('/ajax-classroom/{sid}/{gid}', 'AjaxController@ajaxcall');
 Route::get('/ajax-subject/{id}', 'AjaxController@ajaxsubjectcall');
+Route::get('/ajax-school/{id}', 'AjaxController@ajaxschoolcall');
+Route::get('/ajax-grade/{id}', 'AjaxController@ajaxgradecall');
+
+
 // Route::get('/ajax-classroom',function(){
 // 	$cid = Input::get('cid');
 

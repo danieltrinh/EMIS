@@ -1,17 +1,5 @@
-<div class="navbar-custom-menu pull-left">
-    <ul class="nav navbar-nav">
-        <!-- =================================================== -->
-        <!-- ========== Top menu items (ordered left) ========== -->
-        <!-- =================================================== -->
 
-        <!-- <li><a href="{{ url('/') }}"><i class="fa fa-home"></i> <span>Home</span></a></li> -->
-
-        <!-- ========== End of top menu left items ========== -->
-    </ul>
-</div>
-
-
-<div class="navbar-custom-menu">
+<div class="navbar-custom-menu" style="margin-right: 70px;">
     <ul class="nav navbar-nav">
       <!-- ========================================================= -->
       <!-- ========== Top menu right items (ordered left) ========== -->
@@ -27,7 +15,8 @@
         @else
             <li><a href="{{ url('admin/logout') }}"><i class="fa fa-btn fa-sign-out"></i> {{ trans('backpack::base.logout') }}</a></li>
         @endif
-
+            <li><a href="#">Instruction</a></li>
+            <li><a href="#">Contact</a></li>
        <!-- ========== End of top menu right items ========== -->
     </ul>
 </div>

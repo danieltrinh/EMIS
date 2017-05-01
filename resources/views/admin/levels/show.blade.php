@@ -9,18 +9,6 @@
                     <div class="panel-body">
 
                         <a href="{{ url('admin/levels/' . $level->id . '/edit') }}" class="btn btn-primary btn-xs" title="Edit Level"><span class="glyphicon glyphicon-pencil" aria-hidden="true"/></a>
-                        {{-- {!! Form::open([
-                            'method'=>'DELETE',
-                            'url' => ['admin/levels', $level->id],
-                            'style' => 'display:inline'
-                        ]) !!}
-                            {!! Form::button('<span class="glyphicon glyphicon-trash" aria-hidden="true"/>', array(
-                                    'type' => 'submit',
-                                    'class' => 'btn btn-danger btn-xs',
-                                    'title' => 'Delete Level',
-                                    'onclick'=>'return confirm("Confirm delete?")'
-                            ))!!}
-                        {!! Form::close() !!} --}}
                         <br/>
                         <br/>
 
@@ -32,7 +20,6 @@
                                     </tr>
                                     <tr><th> Name </th><td> {{ $level->name }} </td></tr>
                                     <tr><th> Description </th><td> {{ $level->description }} </td></tr>
-                                    
                                 </tbody>
                             </table>
                         </div>
