@@ -45,7 +45,14 @@ class AjaxController extends Controller
         return \Response::json($schools);
 
      }
+  
+    public function ajaxstudentcall($id){
 
+        $students= \App\Student::where('classroom_id','=',$id)->get(); 
+
+        return \Response::json($students);
+
+     }
 
      public function ajaxgradecall($id){
 
