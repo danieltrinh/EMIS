@@ -51,7 +51,20 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body class="hold-transition {{ config('backpack.base.skin') }} sidebar-mini">
+<body class="hold-transition {{ config('backpack.base.skin') }} sidebar-mini <?php 
+    $user = Auth::user();
+    if ($user->hasRole('admin')) 
+      {echo "admin-ui";}
+    elseif ($user->hasRole('teacher'))
+      {echo "teacher-ui";}
+    elseif ($user->hasRole('student'))
+      {echo "student-ui";}
+    elseif ($user->hasRole('parent'))
+      {echo "parent-ui";}
+    elseif ($user->hasRole('principle'))
+      {echo "principle-ui";}
+
+       ?>">
     <!-- Site wrapper -->
     <div class="wrapper">
 
