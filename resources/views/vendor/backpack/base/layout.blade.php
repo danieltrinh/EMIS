@@ -41,7 +41,7 @@
 
     <!-- BackPack Base CSS -->
     <link rel="stylesheet" href="{{ asset('vendor/backpack/backpack.base.css') }}">
-
+    {{ HTML::style('css/style.css') }}
     @yield('after_styles')
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -51,20 +51,42 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body class="hold-transition {{ config('backpack.base.skin') }} sidebar-mini <?php 
-    $user = Auth::user();
+<body class="hold-transition  sidebar-mini <?php 
+  $user = Auth::user();
+  if($user)
+  {
     if ($user->hasRole('admin')) 
-      {echo "admin-ui";}
+      {
+        echo "admin-ui skin-red-light ";
+        $logo_text_big = "Administrator";
+        $logo_text_mini = "A";
+      }
     elseif ($user->hasRole('teacher'))
-      {echo "teacher-ui";}
+      {
+        echo "teacher-ui skin-black";
+        $logo_text_big = "Teacher";
+        $logo_text_mini = "T";
+      }
     elseif ($user->hasRole('student'))
-      {echo "student-ui";}
+      {
+        echo "student-ui skin-green-light";
+        $logo_text_big = "Student";
+        $logo_text_mini = "S";
+      }
     elseif ($user->hasRole('parent'))
-      {echo "parent-ui";}
+      {
+        echo "parent-ui skin-blue";
+        $logo_text_big = "Parent";
+        $logo_text_mini = "P";
+      }
     elseif ($user->hasRole('principle'))
-      {echo "principle-ui";}
-
-       ?>">
+      {
+        echo "principle-ui skin-yellow";
+        $logo_text_big = "Rector";
+        $logo_text_mini = "R";
+      }
+  }
+?>">
     <!-- Site wrapper -->
     <div class="wrapper">
 
@@ -72,9 +94,20 @@
         <!-- Logo -->
         <a href="{{ url('') }}" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini">{!! config('backpack.base.logo_mini') !!}</span>
+          <span class="logo-mini"><?php
+          if ($logo_text_mini)
+            { echo $logo_text_mini; } 
+          else {  ?>
+            {!! config('backpack.base.logo_mini') !!}
+          <?php }; ?></span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg">{!! config('backpack.base.logo_lg') !!}</span>
+          <span class="logo-lg">
+          <?php 
+          if ($logo_text_big)
+            { echo $logo_text_big; }
+          else {  ?>
+          {!! config('backpack.base.logo_lg') !!}
+          <?php }; ?></span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">

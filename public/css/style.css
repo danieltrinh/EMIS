@@ -78,3 +78,12 @@ label {
 	text-align: right;
 }
 
+.admin-ui .navbar-static-top
+{
+	background-color: #CC3300;
+}
+
+.logo .logo-mini,
+.logo .logo-lg{
+	font-weight: bold;
+}

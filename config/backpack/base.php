@@ -15,8 +15,8 @@ return [
     'project_name' => 'EIMS',
 
     // Menu logos
-    'logo_lg'   => '<b>EIMS</b>',
-    'logo_mini' => '<b>eims</b>',
+    'logo_lg'   => 'EIMS',
+    'logo_mini' => 'eims',
 
     // Developer or company name. Shown in footer.
     'developer_name' => 'Sơn Trịnh',
