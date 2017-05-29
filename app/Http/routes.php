@@ -24,7 +24,6 @@ Route::group(['middleware'=>'web'], function (){
 	});
 
 });
-
 		// Route::resource('subjects', 'Admin\\SubjectsController');
 
 Route::resource('admin/posts', 'Admin\\PostsController');

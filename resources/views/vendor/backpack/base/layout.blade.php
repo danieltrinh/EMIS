@@ -23,6 +23,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="{{ URL::to('/') }}/js/myscript.js"></script>
 
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
@@ -53,6 +54,7 @@
 </head>
 <body class="hold-transition  sidebar-mini <?php 
   $user = Auth::user();
+
   if($user)
   {
     if ($user->hasRole('admin')) 
@@ -95,7 +97,7 @@
         <a href="{{ url('') }}" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><?php
-          if ($logo_text_mini)
+          if (isset($logo_text_mini))
             { echo $logo_text_mini; } 
           else {  ?>
             {!! config('backpack.base.logo_mini') !!}
@@ -103,7 +105,7 @@
           <!-- logo for regular state and mobile devices -->
           <span class="logo-lg">
           <?php 
-          if ($logo_text_big)
+          if (isset($logo_text_big))
             { echo $logo_text_big; }
           else {  ?>
           {!! config('backpack.base.logo_lg') !!}

@@ -1,9 +1,11 @@
 @extends('backpack::layout')
 
 @section('content')
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.bundle.min.js"></script>
+
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-10">
             <div class="panel-group">
                 <div class="panel panel-default">
                     <div class="panel-heading">{{ $school->name }}</div>
@@ -28,10 +30,61 @@
                             <div class="table-responsive">
                                 <table class="table table-borderless">
                                     <tbody>
+                                        <tr><th> Name </th>
+                                        <td> {{ $school->name }} </td></tr>
+                                        <tr><th> Level </th>
+                                        <td> {{ $school->level['name'] }} </td></tr>
                                         <tr>
-                                            <th>ID</th><td>{{ $school->id }}</td>
+                                            <td style="width: 100%"> <canvas id="enrollment" ></canvas></td>
+                                            {{-- <td style="width: 50%"> <canvas id="state_graph"></canvas></td> --}}
+                                            <?php 
+                                            $data = array();reset($data);
+                                            $label = array();reset($label);
+                                            $school_gender = getGenderPercent($school->id);
+                                            foreach ($school_gender as $gender) {
+                                                array_push($label, $gender->year);
+                                                array_push($data, $gender->all_subject);
+                                            }
+                                            ?>
+                                            <script type="text/javascript">
+                                                var ctx = document.getElementById("enrollment").getContext("2d");
+
+                                                var data = {
+                                                    labels: ["Male", "Female"],
+                                                    datasets: [
+                                                    {
+                                                        label: "Male",
+                                                        backgroundColor: "male",
+                                                        data: [3,7,4]
+                                                    },
+                                                    {
+                                                        label: "Female",
+                                                        backgroundColor: "female",
+                                                        data: [4,3,5]
+                                                    }
+                                                    ]
+                                                };
+
+                                                var myBarChart = new Chart(ctx, {
+                                                    type: 'bar',
+                                                    data: data,
+                                                    options: {
+                                                        barValueSpacing: 20,
+                                                        scales: {
+                                                            yAxes: [{
+                                                                ticks: {
+                                                                    min: 0,
+                                                                }
+                                                            }]
+                                                        }
+                                                    }
+                                                });
+                                            </script>
                                         </tr>
-                                        <tr><th> Name </th><td> {{ $school->name }} </td></tr><tr><th> Level </th><td> {{ $school->level['name'] }} </td></tr>
+                                        <tr>
+                                            {{-- <td style="width: 50%"> <canvas id="grade_student" ></canvas></td> --}}
+                                            <td style="width: 100%"> <canvas id="economic"></canvas></td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -39,12 +92,12 @@
                     </div>
                     <div class="panel panel-default">
                         <div class="panel-heading">Class list</div>
-                        <div class="panel-body">
+                        <div class="panel-body" style="height: 500px; overflow-y: scroll;">
 
                         <a href="{{ url('/admin/classrooms/create') }}" class="btn btn-primary btn-xs" title="Add New Classroom"><span class="glyphicon glyphicon-plus" aria-hidden="true"/></a>
 
-                            <div class="table-responsive">
-                                <table class="table table-borderless">
+                            <div class="table-responsive ">
+                                <table class="table table-borderless table-hover">
                                     <thead>
                                         <tr>
                                         <th> Name </th><th>Grade</th><th>Actions</th>
@@ -82,16 +135,16 @@
 
                         <div class="panel panel-default">
                     <div class="panel-heading">Teachers</div>
-                    <div class="panel-body">
+                    <div class="panel-body" style="height: 500px; overflow-y: scroll;">
 
                         <a href="{{ url('/admin/teachers/create') }}" class="btn btn-primary btn-xs" title="Add New Teacher"><span class="glyphicon glyphicon-plus" aria-hidden="true"/></a>
                         <br/>
                         <br/>
                         <div class="table-responsive">
-                            <table class="table table-borderless">
+                            <table class="table table-borderless table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Teacher ID</th><th> Name </th><th> School </th><th> Level </th><th>Actions</th>
+                                        <th>Teacher ID</th><th> Name </th><th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -99,8 +152,6 @@
                                     <tr>
                                         <td>{{ $item->id }}</td>
                                         <td>{{ $item->name }}</td>
-                                        <td>{{ $item->school['name'] }}</td>
-                                        <td>{{ $item->level['name'] }}</td>
                                         <td>
                                             <a href="{{ url('/admin/teachers/' . $item->id) }}" class="btn btn-success btn-xs" title="View Teacher"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"/></a>
                                             <a href="{{ url('/admin/teachers/' . $item->id . '/edit') }}" class="btn btn-primary btn-xs" title="Edit Teacher"><span class="glyphicon glyphicon-pencil" aria-hidden="true"/></a>
