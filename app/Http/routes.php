@@ -42,6 +42,11 @@ Route::get('/ajax-subject/{id}', 'AjaxController@ajaxsubjectcall');
 Route::get('/ajax-school/{id}', 'AjaxController@ajaxschoolcall');
 Route::get('/ajax-grade/{id}', 'AjaxController@ajaxgradecall');
 Route::get('/ajax-student/{id}', 'AjaxController@ajaxstudentcall');
+Route::get('/ajax-principle-dashboard/{uid}/{gid}', 'AjaxController@ajaxprincipledashboard');
+
+Route::get('/ajax-principle-dashboard-gender/{sid}/{gid}', 'AjaxController@ajaxprinciplegender');
+
+
 
 
 

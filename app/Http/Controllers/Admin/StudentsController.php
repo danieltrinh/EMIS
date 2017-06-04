@@ -8,22 +8,46 @@ use App\Http\Controllers\Controller;
 use App\Student;
 use Illuminate\Http\Request;
 use Session;
+use Illuminate\Support\Facades\Auth;
 
 class StudentsController extends Controller
 {
 
     public function index()
     {
-        $students = Student::paginate(25);
-
-        return view('admin.students.index', compact('students'));
+        $user = Auth::user();
+        if ($user && $user->hasRole('principle')) 
+        {
+            $current_school =  getPrincipleSchool($user->id); 
+            $current_school = \App\School::findOrFail($current_school[0]->id);
+            $students = Student::where('school_id', $current_school->id)->paginate(25);
+            $relations = [
+            'students' => $students,
+            ];
+            return view('admin.students.index', $relations);
+        }
+        elseif ($user && $user->hasRole('teacher')) 
+        {
+            $current_classroom = getTeacherClassroom($user->id);
+            $current_classroom_id = $current_classroom[0]->id;
+            $current_classroom = \App\Classroom::findOrFail($current_classroom_id);
+            $relations = [
+            'students' => $current_classroom->students,
+            ];
+            return view('admin.students.index', $relations);
+        }
+        else
+        {
+            $students = Student::paginate(25);
+            return view('admin.students.index', compact('students'));
+        }
     }
 
     public function create()
     {
         $relations = [
-            'schools' => \App\School::get()->pluck('name', 'id'),
-            'classrooms' => \App\Classroom::get()->pluck('name', 'id'),
+        'schools' => \App\School::get()->pluck('name', 'id'),
+        'classrooms' => \App\Classroom::get()->pluck('name', 'id'),
         ];
 
         return view('admin.students.create', $relations);
@@ -31,7 +55,7 @@ class StudentsController extends Controller
 
     public function store(Request $request)
     {
-        
+
         $requestData = $request->all();
         
         Student::create($requestData);
@@ -53,8 +77,8 @@ class StudentsController extends Controller
         $student = Student::findOrFail($id);
 
         $relations = [
-            'schools' => \App\School::get()->pluck('name', 'id'),
-            'classrooms' => \App\Classroom::get()->pluck('name', 'id'),
+        'schools' => \App\School::get()->pluck('name', 'id'),
+        'classrooms' => \App\Classroom::get()->pluck('name', 'id'),
         ];
 
         return view('admin.students.edit', compact('student') + $relations);
@@ -62,7 +86,7 @@ class StudentsController extends Controller
 
     public function update($id, Request $request)
     {
-        
+
         $requestData = $request->all();
         
         $student = Student::findOrFail($id);
@@ -83,12 +107,12 @@ class StudentsController extends Controller
     }
 
     public function getCurrentGradeResult($grade,$student_id){
-              $result = \DB::select("SELECT * FROM student_subject
-                                        WHERE grade_id= $grade
-                                        and student_id = $student_id
+      $result = \DB::select("SELECT * FROM student_subject
+        WHERE grade_id= $grade
+        and student_id = $student_id
         ");
       return $result;
-    }
+  }
 
-    
+
 }

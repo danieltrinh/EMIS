@@ -45,7 +45,10 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            <div class="pagination-wrapper"> {!! $students->render() !!} </div>
+                            <?php $user = Auth::user(); ?>
+                            @if (!$user->hasRole('teacher'))
+                                <div class="pagination-wrapper"> {!! $students->render() !!} </div>
+                            @endif
                         </div>
 
                     </div>

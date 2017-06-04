@@ -16,50 +16,54 @@ class StudentsRecordSeeder extends Seeder
     {
         //Kim dong Studeent record
         $faker = Faker::create();
+        $i = 121;
+        for ($i=121; $i <=170 ; $i++) 
+        { 
+            $student_ids = DB::table('students')->select('id')->where('school_id','2')->where('classroom_id',$i)->pluck('id');
 
-        $student_ids = DB::table('students')->select('id')->where('school_id','2')->pluck('id');
+            foreach ($student_ids as $key => $student_id) {
+                $student_current_classroom =DB::table('students')->where('id','22038')->value('classroom_id'); 
+                $student_grade=DB::table('classrooms')->where('id',$student_current_classroom)->value('grade_id');
+                // echo $student_grade;
+                // echo "\t";
+                    // echo $student_current_classroom;
+                    // echo "\t";
+                    // echo $student_grade;,
+                    // echo "\t";
+                for($grade=1;$grade<=$student_grade;$grade++)
+                {
+                    // echo "Grade".$grade;
+                    // echo "\n-----------------------------\n";
+                    $subjects= $this->getAllSubjects($grade);
+                    $study_year = (date("Y") - ($student_grade-$grade));
 
-        // foreach ($student_ids as $key => $student_id) {
-        $student_current_classroom =DB::table('students')->where('id','22038')->value('classroom_id'); 
-        $student_grade=DB::table('classrooms')->where('id',$student_current_classroom)->value('grade_id');
-        echo $student_grade;
-        echo "\t";
-        	// echo $student_current_classroom;
-        	// echo "\t";
-        	// echo $student_grade;,
-        	// echo "\t";
-        for($grade=1;$grade<=$student_grade;$grade++)
-        {
-            echo "Grade".$grade;
-            echo "\n-----------------------------\n";
-            $subjects= $this->getAllSubjects($grade);
-            $study_year = (date("Y") - ($student_grade-$grade));
+                    foreach ($subjects as $key => $value) {
+                        // echo $value->subject_name;
+                        $scoreArray = $this->scoreArray();
+                        // print_r($scoreArray);
+                        DB::table('student_subject')->insert([
+                            "student_id" => $student_id,
+                            "subject_id" => $value->subject_id, 
+                            "grade_id" => $grade, 
+                            "s1_quizzes" => $scoreArray['s1_quizzes'],
+                            "s1_midterm" => $scoreArray['s1_midterm'],
+                            "s1_final" => $scoreArray['s1_final'],
+                            "s1_total" => $scoreArray['s1_total'],
+                            "s2_quizzes" => $scoreArray['s2_quizzes'],
+                            "s2_midterm" => $scoreArray['s2_midterm'],
+                            "s2_final" => $scoreArray['s2_final'],
+                            "s2_total" => $scoreArray['s2_total'],
+                            "year_final" => $scoreArray['year_final'],
+                            "year" => $study_year,
+                            ]);
 
-            foreach ($subjects as $key => $value) {
-                echo $value->subject_name;
-                $scoreArray = $this->scoreArray();
-                    print_r($scoreArray);
-                DB::table('student_subject')->insert([
-                    "student_id" => 22038,
-                    "subject_id" => $value->subject_id, 
-                    "grade_id" => $grade, 
-                    "s1_quizzes" => $scoreArray['s1_quizzes'],
-                    "s1_midterm" => $scoreArray['s1_midterm'],
-                    "s1_final" => $scoreArray['s1_final'],
-                    "s1_total" => $scoreArray['s1_total'],
-                    "s2_quizzes" => $scoreArray['s2_quizzes'],
-                    "s2_midterm" => $scoreArray['s2_midterm'],
-                    "s2_final" => $scoreArray['s2_final'],
-                    "s2_total" => $scoreArray['s2_total'],
-                    "year_final" => $scoreArray['year_final'],
-                    "year" => $study_year,
-                 ]);
+                    }
+                    reset($scoreArray);
 
+                }
+                // echo "\n";
             }
-            reset($scoreArray);
-
         }
-        echo "\n";
 
     }
 

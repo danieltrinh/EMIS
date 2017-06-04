@@ -39,27 +39,29 @@
                                             {{-- <td style="width: 50%"> <canvas id="state_graph"></canvas></td> --}}
                                             <?php 
                                             $data = array();reset($data);
+                                            $graded = array();reset($graded);
                                             $label = array();reset($label);
                                             $school_gender = getGenderPercent($school->id);
                                             foreach ($school_gender as $gender) {
-                                                array_push($label, $gender->year);
-                                                array_push($data, $gender->all_subject);
+                                                array_push($graded, $gender->grade_id);
+                                                // array_push($data, $gender->all_subject);
                                             }
+                                            // echo "<pre>";print_r($graded);die;
                                             ?>
                                             <script type="text/javascript">
                                                 var ctx = document.getElementById("enrollment").getContext("2d");
 
                                                 var data = {
-                                                    labels: ["Male", "Female"],
+                                                    labels: ["2016", "2017"],
                                                     datasets: [
                                                     {
                                                         label: "Male",
-                                                        backgroundColor: "male",
+                                                        backgroundColor: "red",
                                                         data: [3,7,4]
                                                     },
                                                     {
                                                         label: "Female",
-                                                        backgroundColor: "female",
+                                                        backgroundColor: "blue",
                                                         data: [4,3,5]
                                                     }
                                                     ]
@@ -82,7 +84,6 @@
                                             </script>
                                         </tr>
                                         <tr>
-                                            {{-- <td style="width: 50%"> <canvas id="grade_student" ></canvas></td> --}}
                                             <td style="width: 100%"> <canvas id="economic"></canvas></td>
                                         </tr>
                                     </tbody>

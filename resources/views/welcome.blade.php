@@ -127,11 +127,12 @@
         <div class="container home_content">
           <div class="row ">
             <h2 style="font-weight: bold; margin-top: 0"> School System</h2>
-
+          <a href="/admin/login">
             <div class="col-md-4 level_home">
               <img src="./img/111.jpg">
               <h2>PRIMARY</h2>
             </div>
+            </a>
             <div class="col-md-4 level_home">
               <img src="./img/222.jpg">
               <h2>SECONDARY</h2>

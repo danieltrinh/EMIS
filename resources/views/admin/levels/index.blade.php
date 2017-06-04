@@ -40,13 +40,21 @@
                         </div>
 
                         <form class="form-horizontal">
-                            <div class="form-group">
+                        <?php $user = Auth::user(); ?>
+                            <div class="form-group" <?php if ($user->hasRole('principle')) echo 'style="display:none"' ?>>
                                 <label for="level_id" class="col-md-3 control-label">Level</label>
                                 <div class="col-md-6">
                                     <select name="level_id" id="level_id" class="form-control">
                                         <option value="" >Please choose a level</option>
                                         @foreach($levels as $item)
-                                        <option value="{{ $item->id }}" >{{ $item->name }}</option>
+                                        <option value="{{ $item->id }}" <?php if ($user->hasRole('principle')) 
+                                        {
+                                            if($item->id==1)
+                                            {
+                                                echo "selected";    
+                                            }
+
+                                            } ?>>{{ $item->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -54,11 +62,13 @@
                             <div class="form-group">
                                 <label for="school_id" class="col-md-3 control-label">School</label>
                                 <div class="col-md-6">
-                                    <select name="school_id" id="school_id" class="form-control">
+                                    <select name="school_id" id="school_id" class="form-control" >
                                         <option value="" ></option>
-                                       {{--  @foreach($schools as $item)
-                                        <option value="{{ $item->id }}" >{{ $item->name }}</option>
-                                        @endforeach --}}
+                                        {{-- @foreach($schools as $item) --}}
+                                        <?php if ($user->hasRole('principle')) { ?>
+                                        <option value="2" >Kim Dong</option>
+                                        <?php }?>
+                                        {{-- @endforeach --}}
                                     </select>
                                 </div>
                             </div>

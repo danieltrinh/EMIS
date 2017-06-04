@@ -20,7 +20,7 @@
           <!-- ==== Recommended place for admin menu items ==== -->
           <!-- ================================================ -->
           <li><a href="{{ url('admin/dashboard') }}"><i class="fa fa-dashboard"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
-          <li><a href="{{ url('admin/levels') }}"><i class="fa fa-bars"></i> <span>Levels</span></a></li>
+          <li><a href="{{ url('admin/levels') }}"><i class="fa fa-bars"></i> <span>Filter</span></a></li>
           <li><a href="{{ url('admin/schools') }}"><i class="fa fa-building"></i> <span>Schools</span></a></li>
           {{-- <li><a href="{{ url('admin/classrooms') }}"><i class="fa fa-building"></i> <span>Classes</span></a></li> --}}
           <li><a href="{{ url('admin/students') }}"><i class="fa fa-child"></i> <span>Students</span></a></li>

@@ -20,13 +20,13 @@ $(document).ready(function(){
             $('#school_id').append('<option value="'+schoolObj.id+'">'+schoolObj.name+'</option>');
 
             $('#filter_content').append('<tr><td>'+schoolObj.name+'</td><td><a href="'+ baseUrl +'/admin/schools/'+ schoolObj.id +'" class="btn btn-success btn-xs" title="View School"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"/></a></td>');
-            })
-        });
-
-       
+        })
     });
 
-     $('#school_id').on('change',function(e) {
+
+    });
+
+    $('#school_id').on('change',function(e) {
         /* Act on the event */
 
         console.log(e);
@@ -37,7 +37,7 @@ $(document).ready(function(){
 
         console.log(sid);
 
-         $.get('/ajax-grade/' + lid,function(datag){
+        $.get('/ajax-grade/' + lid,function(datag){
         //success data
         console.log(datag);
         $('#grade_id').empty();
@@ -45,10 +45,10 @@ $(document).ready(function(){
         $.each(datag, function(index,gradeObj){
             $('#grade_id').append('<option value="'+gradeObj.id+'">'+gradeObj.name+'</option>');
         })
-        });
+    });
     });
 
-      $('#grade_id').on('change',function(e) {
+    $('#grade_id').on('change',function(e) {
         /* Act on the event */
 
         console.log(e);
@@ -88,5 +88,76 @@ $(document).ready(function(){
                 $('#filter_content').append('<tr><td>'+studentObj.name+'</td><td>'+studentObj.student_id+'</td><td><a href="'+ baseUrl +'/admin/students/'+ studentObj.id +'" class="btn btn-success btn-xs" title="View Student"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"/></a></td>');
             })
         });
+    });
+
+    $('#principle_grade').on('change',function(e) {
+        /* Act on the event */
+
+        console.log(e);
+
+        var gid = e.target.value;
+        var uid = $('#user_id').val();
+        var sid = $('#school_id').val();
+
+        console.log(uid);
+
+        $('#principle_bargraph').empty();
+        $.get('/ajax-principle-dashboard/' + uid + '/' + gid,function(data){
+            console.log(data);
+
+            var graphdata = data;
+            var ctx = document.getElementById('principle_bargraph').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: graphdata ,
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    }
+                }
+            });
+
+        });
+
+        $.get('/ajax-principle-dashboard-gender/' + sid + '/' + gid,function(data){
+            var graphdata = data;
+            var ctx = document.getElementById('principle_male_female').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'pie',
+                data: graphdata ,
+                options: {
+                    responsive: true
+                }
+            });
+        });
+    });
+
+    $('#teacher_graph').on('change',function(e) {
+        /* Act on the event */
+
+        console.log(e);
+
+        var option = e.target.value;
+        var uid = $('#user_id').val();
+        var sid = $('#school_id').val();
+
+        console.log(uid);
+
+        if(option==1)
+        {
+            $("#teacher_subject_graph").show();
+            $("#teacher_student_graph").hide();
+        }
+        else if(option==2)
+        {
+            $("#teacher_subject_graph").hide();
+            $("#teacher_student_graph").show();
+        }
+
+        
     });
 });
