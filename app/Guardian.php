@@ -27,5 +27,8 @@ class Guardian extends Model
      */
     protected $fillable = ['name', 'radio'];
 
-    
+    public function student()
+    {
+        return $this->belongsTo('App\Student');
+    }
 }

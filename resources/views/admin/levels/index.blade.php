@@ -1,13 +1,16 @@
 @extends('backpack::layout')
 
 @section('content')
+    <?php $user = Auth::user(); ?>
     <div class="container">
         <div class="row">
             <div class="col-md-10">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Levels</div>
+                    <div class="panel-heading"><b style="font-size: 120%"><i class="fa fa-filter" aria-hidden="true"></i>&nbsp;&nbsp;Filter</b></div>
                     <div class="panel-body">
+                    @if ($user->hasRole('admin'))
                     <div class="table-responsive">
+                    
                             <table class="table table-borderless">
                                 <thead>
                                     <tr>
@@ -38,9 +41,9 @@
                             </table>
                             {{-- <div class="pagination-wrapper"> {!! $levels->render() !!} </div> --}}
                         </div>
+                        @endif
 
                         <form class="form-horizontal">
-                        <?php $user = Auth::user(); ?>
                             <div class="form-group" <?php if ($user->hasRole('principle')) echo 'style="display:none"' ?>>
                                 <label for="level_id" class="col-md-3 control-label">Level</label>
                                 <div class="col-md-6">

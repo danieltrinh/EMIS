@@ -91,11 +91,17 @@ public function ajaxprincipledashboard($uid,$gid){
   $grades = $level->grades;
   $data['labels']=$label;
   $data['datasets'][0]['data']=$datasets;
-  $data['datasets'][0]['backgroundColor']='red';
+  $data['datasets'][0]['backgroundColor']='rgba(255,177,193,0.8)';
+  // $data['datasets'][0]['borderColor']='window.chartColors.red';
+  // $data['datasets'][0]['borderWidth']=1;
+
+
   $data['datasets'][0]['label']='Behavior';
 
   $data['datasets'][1]['data']=$datasets_perfomance;
-  $data['datasets'][1]['backgroundColor']='blue';
+  $data['datasets'][1]['backgroundColor']='rgba(154,208,245,0.8)';
+  //   $data['datasets'][0]['borderColor']='window.chartColors.blue';
+  // $data['datasets'][0]['borderWidth']=1;
   $data['datasets'][1]['label']='Academic Perfomance';
 
   return \Response::json($data);

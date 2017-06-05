@@ -87,3 +87,12 @@ label {
 .logo .logo-lg{
 	font-weight: bold;
 }
+
+.skin-yellow .sidebar-menu>li:hover>a, .skin-yellow .sidebar-menu>li.active>a
+{
+	font-weight: bold;
+}
+
+.box-body.principle_body{
+	min-height: 540px;
+}

@@ -26,7 +26,12 @@ class Student extends Model
     {
         return $this->belongsTo('App\School');
     }
-	
+
+	public function guardians()
+    {
+        return $this->hasMany('App\Guardian');
+    }
+
     public function student_subject()
     {
         return $this->belongsToMany('App\Subject')

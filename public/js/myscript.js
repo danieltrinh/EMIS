@@ -117,6 +117,11 @@ $(document).ready(function(){
                                 beginAtZero:true
                             }
                         }]
+                    },
+                    responsive: true,
+                    title: {
+                        display: true,
+                        text: 'Grade ' + gid + ' Perfomance and Behavior of all Classes',
                     }
                 }
             });
@@ -130,7 +135,11 @@ $(document).ready(function(){
                 type: 'pie',
                 data: graphdata ,
                 options: {
-                    responsive: true
+                    responsive: true,
+                    title: {
+                        display: true,
+                        text: 'Grade ' + gid + ' Gender ratio',
+                    }
                 }
             });
         });

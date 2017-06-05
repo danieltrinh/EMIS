@@ -12,39 +12,25 @@
     </section>
 @endsection
 
-
 @section('content')
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box box-default">
-                <div class="box-header with-border">
-                    <div class="box-title">{{ trans('backpack::base.login_status') }}</div>
-                </div>
+<?php $user = Auth::user();?>
 
-                <div class="box-body">{{ trans('backpack::base.logged_in') }}
-                  <?php 
-                  $user = Auth::user();?>
+  @if($user)        
+    @if ($user->hasRole('admin')) 
+      @include('admin.dashboard.admin')
+    @elseif ($user->hasRole('teacher'))
+    
+      @include('admin.dashboard.teacher')
+    @elseif ($user->hasRole('student'))
+    
+      @include('admin.dashboard.student')
+    @elseif ($user->hasRole('parent'))
+    
+      @include('admin.dashboard.parent')
+    @elseif ($user->hasRole('principle'))
+      @include('admin.dashboard.principle')
+    
+    @endif
+  @endif
 
-                  @if($user)        
-                    @if ($user->hasRole('admin')) 
-                      @include('admin.dashboard.admin')
-                    @elseif ($user->hasRole('teacher'))
-                    
-                      @include('admin.dashboard.teacher')
-                    @elseif ($user->hasRole('student'))
-                    
-                      @include('admin.dashboard.student')
-                    @elseif ($user->hasRole('parent'))
-                    
-                      @include('admin.dashboard.parent')
-                    @elseif ($user->hasRole('principle'))
-                      @include('admin.dashboard.principle')
-                    
-                    @endif
-                  @endif
-
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection

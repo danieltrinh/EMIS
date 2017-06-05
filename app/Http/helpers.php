@@ -217,6 +217,42 @@ function getStudentPerfomance($classroom, $order)
  * @param  id $class_id [description]
  * @return string           [description]
  */
+function getTopStudent($classroom)
+{
+	$data 			= array();
+	$behavior 		= array();
+	$name 			= array();
+	$performance 	= array();
+	$data_aca		= array();
+	$i = 0;
+	foreach ($classroom->students->sortBy('behavior',true,true) as $student) {
+		$sql = "SELECT  AVG(year_final) AS average_per_year, students.*
+		FROM student_subject
+		JOIN students 
+		ON students.`id` = student_subject.`student_id`  
+		WHERE student_subject.`student_id`  = ".$student->id."
+		AND student_subject.`year` = 2017";
+		$result = \DB::select($sql);
+
+		//sort by performance
+		$data_aca[$i]['name'] = $result[0]->name;
+		$data_aca[$i]['performance'] = round($result[0]->average_per_year,2);
+		$data_aca[$i]['behavior'] = round($result[0]->behavior,2);
+
+		$i++;
+	}
+	foreach ($data_aca as $key => $row) {
+			$performance[$key]  = $row['performance'];
+		}
+		array_multisort($performance, SORT_DESC, $data_aca);
+
+	return $data_aca;
+}
+/**
+ * [getClassroomPerfomance description]
+ * @param  id $class_id [description]
+ * @return string           [description]
+ */
 function getGradeGender($school_id,$grade_id)
 {
 	$sql = "
@@ -236,12 +272,12 @@ function getGradeGender($school_id,$grade_id)
 		if($gender->female==0)
 		{
 			array_push($labels, "male");
-			array_push($backgroundColor, "green");
+			array_push($backgroundColor, "#36a2eb");
 		}
 		else
 		{
 			array_push($labels, "female");
-			array_push($backgroundColor, "pink");
+			array_push($backgroundColor, "rgb(255,205,86)");
 		}
 		array_push($datasets,$gender->COUNT);
 	}

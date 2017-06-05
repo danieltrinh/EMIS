@@ -8,15 +8,30 @@ use App\Http\Controllers\Controller;
 use App\Classroom;
 use Illuminate\Http\Request;
 use Session;
+use Illuminate\Support\Facades\Auth;
 
 class ClassroomsController extends Controller
 {
 
     public function index()
     {
-        $classrooms = Classroom::paginate(25);
+        $user = Auth::user();
+        if ($user && $user->hasRole('principle')) 
+        {
+            $current_school =  getPrincipleSchool($user->id); 
+            $current_school = \App\School::findOrFail($current_school[0]->id);
+            $classrooms = Classroom::where('school_id', $current_school->id)->paginate(25);
+            $relations = [
+            'classrooms' => $classrooms,
+            ];
+            return view('admin.classrooms.index', $relations);
+        }
+        else
+        {
+            $classrooms = Classroom::paginate(25);
+            return view('admin.classrooms.index', compact('classrooms'));
+        }
 
-        return view('admin.classrooms.index', compact('classrooms'));
     }
 
 
