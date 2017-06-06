@@ -42,43 +42,66 @@
                             {{-- <div class="pagination-wrapper"> {!! $levels->render() !!} </div> --}}
                         </div>
                         @endif
-
+                        
                         <form class="form-horizontal">
-                            <div class="form-group" <?php if ($user->hasRole('principle')) echo 'style="display:none"' ?>>
+                            <div class="form-group"  <?php if (!$user->hasRole('admin')) echo 'style="display:none"';?>>
                                 <label for="level_id" class="col-md-3 control-label">Level</label>
                                 <div class="col-md-6">
                                     <select name="level_id" id="level_id" class="form-control">
-                                        <option value="" >Please choose a level</option>
-                                        @foreach($levels as $item)
-                                        <option value="{{ $item->id }}" <?php if ($user->hasRole('principle')) 
-                                        {
-                                            if($item->id==1)
-                                            {
-                                                echo "selected";    
-                                            }
-
-                                            } ?>>{{ $item->name }}</option>
-                                        @endforeach
+                                        @if ($user->hasRole('admin'))
+                                            <option value="" >Please choose a level</option>
+                                            @foreach($levels as $item)
+                                                <option value="{{ $item->id }}" >{{ $item->name }}</option>
+                                            @endforeach
+                                        @elseif($user->hasRole('principle'))
+                                            <?php
+                                            $current_school =  getPrincipleSchool($user->id); 
+                                            $current_school = \App\School::findOrFail($current_school[0]->id);
+                                            ?>
+                                            <option value="{{ $current_school->level->id }}" selected>{{ $current_school->level->name }}</option>
+                                        @endif
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            
+                            
+                            <div class="form-group" <?php if (!$user->hasRole('admin') && !$user->hasRole('principle')) echo 'style="display:none"';?>>
                                 <label for="school_id" class="col-md-3 control-label">School</label>
                                 <div class="col-md-6">
                                     <select name="school_id" id="school_id" class="form-control" >
-                                        <option value="" ></option>
-                                        {{-- @foreach($schools as $item) --}}
-                                        <?php if ($user->hasRole('principle')) { ?>
-                                        <option value="2" >Kim Dong</option>
-                                        <?php }?>
-                                        {{-- @endforeach --}}
+                                        @if ($user->hasRole('principle'))
+                                            <?php
+                                                $current_school =  getPrincipleSchool($user->id); 
+                                                $current_school = \App\School::findOrFail($current_school[0]->id);
+                                            ?>
+                                            <option value="{{ $current_school->id }}" selected>{{ $current_school->name }}</option>
+                                        @elseif ($user->hasRole('teacher'))
+                                            <?php
+                                                $current_classroom = getTeacherClassroom($user->id);
+                                                $current_classroom_id = $current_classroom[0]->id;
+                                                $current_classroom = \App\Classroom::findOrFail($current_classroom_id);
+                                            ?>
+                                            <option value="{{ $current_classroom->school->id }}" selected>{{ $current_classroom->school->name }}</option>
+                                        @else
+                                            <option value="" ></option>
+                                        @endif
                                     </select>
+                                        {{-- @endforeach --}}
                                 </div>
                             </div>
+
                             <div class="form-group">
                                 <label for="grade_id" class="col-md-3 control-label">Grade</label>
                                 <div class="col-md-6">
                                     <select name="grade_id" id="grade_id" class="form-control">
+                                        @if ($user->hasRole('teacher'))
+                                            <?php
+                                                $current_classroom = getTeacherClassroom($user->id);
+                                                $current_classroom_id = $current_classroom[0]->id;
+                                                $current_classroom = \App\Classroom::findOrFail($current_classroom_id);
+                                            ?>
+                                            <option value="{{ $current_classroom->grade->id }}" selected>{{ $current_classroom->grade->name }}</option>
+                                        @endif
                                         {{-- @foreach($grades as $item)
                                         <option value="" ></option>
                                         <option value="{{ $item->id }}" >{{ $item->name }}</option>

@@ -66,7 +66,7 @@
       }
     elseif ($user->hasRole('teacher'))
       {
-        echo "teacher-ui skin-black";
+        echo "teacher-ui skin-purple-light";
         $logo_text_big = "Teacher";
         $logo_text_mini = "T";
       }
