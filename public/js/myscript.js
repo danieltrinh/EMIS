@@ -1,15 +1,14 @@
 $(document).ready(function(){
     var baseUrl = document.location.origin;
+
     $('#level_id').on('change',function(e) {
-        /* Act on the event */
-        console.log(baseUrl);
+
         $('#grade_id').empty();
         $('#classroom_id').empty();
 
         var cid = e.target.value;
         $.get('/ajax-school/' + cid,function(data){
-        //success data
-        console.log(data);
+        
         $('#school_id').empty();
         $('#school_id').append('<option value="">Please choose a school</option>');
 
@@ -19,7 +18,8 @@ $(document).ready(function(){
         $.each(data, function(index,schoolObj){
             $('#school_id').append('<option value="'+schoolObj.id+'">'+schoolObj.name+'</option>');
 
-            $('#filter_content').append('<tr><td>'+schoolObj.name+'</td><td><a href="'+ baseUrl +'/admin/schools/'+ schoolObj.id +'" class="btn btn-success btn-xs" title="View School"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"/></a></td>');
+            $('#filter_content').append('<tr><td>'+schoolObj.name+'</td><td><a href="'+ baseUrl +'/admin/schools/'+ schoolObj.id 
+                +'" class="btn btn-success btn-xs" title="View School"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"/></a></td>');
         })
     });
 
