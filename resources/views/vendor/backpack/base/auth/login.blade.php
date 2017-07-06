@@ -62,8 +62,8 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ trans('backpack::base.login') }}
                                 </button>
-
-                                <a class="btn btn-link" href="{{ url('admin/password/reset') }}">{{ trans('backpack::base.forgot_your_password') }}</a>
+{{-- 
+                                <a class="btn btn-link" href="{{ url('admin/password/reset') }}">{{ trans('backpack::base.forgot_your_password') }}</a> --}}
                             </div>
                         </div>
                     </form>

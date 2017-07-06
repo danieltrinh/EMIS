@@ -6,7 +6,7 @@
     </div>
 </div>
 <div class="form-group {{ $errors->has('radio') ? 'has-error' : ''}}">
-    {!! Form::label('radio', 'Radio', ['class' => 'col-md-4 control-label']) !!}
+    {!! Form::label('radio', 'Role', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
         {!! Form::select('radio', ['father', 'mother', 'other'], null, ['class' => 'form-control']) !!}
         {!! $errors->first('radio', '<p class="help-block">:message</p>') !!}
