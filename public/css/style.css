@@ -31,7 +31,7 @@
 
 .home_content img {
 	width: 100%;
-	height: 210px;
+	height: 320px;
 	object-fit: cover;
 	filter: brightness(50%);
 }

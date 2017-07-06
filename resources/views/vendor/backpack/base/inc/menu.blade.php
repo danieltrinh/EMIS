@@ -15,8 +15,8 @@
         @else
             <li><a href="{{ url('admin/logout') }}"><i class="fa fa-btn fa-sign-out"></i> {{ trans('backpack::base.logout') }}</a></li>
         @endif
-            <li><a href="#">Instruction</a></li>
-            <li><a href="#">Contact</a></li>
+            {{-- <li><a href="#">Instruction</a></li>
+            <li><a href="#">Contact</a></li> --}}
        <!-- ========== End of top menu right items ========== -->
     </ul>
 </div>

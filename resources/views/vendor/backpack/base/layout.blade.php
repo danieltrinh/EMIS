@@ -21,7 +21,9 @@
     {{-- <link rel="stylesheet" href="{{base_path()}}/custom.css"> --}}
     
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="{{ URL::to('/') }}/js/jquery.cookie.js"></script>
 <script src="{{ URL::to('/') }}/js/myscript.js"></script>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.bundle.min.js"></script>
 
 
@@ -165,6 +167,7 @@
     <script src="{{ asset('vendor/adminlte') }}/plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <script src="{{ asset('vendor/adminlte') }}/plugins/fastclick/fastclick.js"></script>
     <script src="{{ asset('vendor/adminlte') }}/dist/js/app.min.js"></script>
+<script src="{{ URL::to('/') }}/js/jquery.cookie.js"></script>
 
     <!-- page script -->
     <script type="text/javascript">

@@ -1,6 +1,8 @@
 $(document).ready(function(){
     var baseUrl = document.location.origin;
 
+   
+
     $('#level_id').on('change',function(e) {
 
         $('#grade_id').empty();
@@ -206,7 +208,5 @@ $(document).ready(function(){
             $("#teacher_subject_graph").hide();
             $("#teacher_student_graph").show();
         }
-
-        
     });
 });

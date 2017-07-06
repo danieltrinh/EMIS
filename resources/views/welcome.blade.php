@@ -20,7 +20,9 @@
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/') }}/bootstrap/css/bootstrap.min.css">
     {{-- <link rel="stylesheet" href="{{base_path()}}/custom.css">--}}
     
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="{{ URL::to('/') }}/js/jquery.cookie.js"></script>
+    <script src="{{ URL::to('/') }}/js/myscript.js"></script>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -127,21 +129,25 @@
         <div class="container home_content">
           <div class="row ">
             <h2 style="font-weight: bold; margin-top: 0"> School System</h2>
-          <a href="/admin/login">
-            <div class="col-md-4 level_home">
-              <img src="./img/111.jpg">
-              <h2>PRIMARY</h2>
-            </div>
+            <a href="admin/login" id="1" class = "level_check">
+              <div class="col-md-4 level_home">
+                <img src="./img/111.jpg">
+                <h2>PRIMARY</h2>
+              </div>
             </a>
-            <div class="col-md-4 level_home">
-              <img src="./img/222.jpg">
-              <h2>SECONDARY</h2>
-            </div>
-            <div class="col-md-4 level_home">
-              <img src="./img/333.jpg">
-              <h2>HIGHSCHOOL</h2>
-            </div>
-          </div>  
+            <a href="admin/login" id="2" class = "level_check">
+              <div class="col-md-4 level_home">
+                <img src="./img/222.jpg">
+                <h2>SECONDARY</h2>
+              </div>
+            </a>
+            <a href="admin/login" id="3" class = "level_check">
+              <div class="col-md-4 level_home">
+                <img src="./img/333.jpg">
+                <h2>HIGHSCHOOL</h2>
+              </div>
+            </div>  
+          </a>
     </div>
       <!-- /.content -->
     </div>
@@ -165,6 +171,7 @@
     <script src="{{ asset('vendor/adminlte') }}/plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <script src="{{ asset('vendor/adminlte') }}/plugins/fastclick/fastclick.js"></script>
     <script src="{{ asset('vendor/adminlte') }}/dist/js/app.min.js"></script>
+    <script src="{{ URL::to('/') }}/js/jquery.cookie.js"></script>
 
     <!-- page script -->
     <script type="text/javascript">
@@ -186,6 +193,24 @@
             $(this).parents('li').addClass('active');
           }
         });
+
+        $('.level_check').on('click', function(e){
+          event.preventDefault();
+          if ($(this).attr("id")==1)
+          {
+            $.cookie('level_login',1);
+          }
+          else if ($(this).attr("id")==2)
+          {
+            $.cookie('level_login',2);
+          }
+          else 
+          {
+            $.cookie('level_login',3);
+          }
+           window.location = $(this).attr('href');
+        })
+
     </script>
 
     @include('backpack::inc.alerts')
