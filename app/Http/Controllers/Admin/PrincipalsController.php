@@ -11,11 +11,7 @@ use Session;
 
 class PrincipalsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\View\View
-     */
+
     public function index()
     {
         $principals = Principal::paginate(25);
@@ -23,23 +19,12 @@ class PrincipalsController extends Controller
         return view('admin.principals.index', compact('principals'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\View\View
-     */
+
     public function create()
     {
         return view('admin.principals.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
     public function store(Request $request)
     {
         
@@ -52,13 +37,6 @@ class PrincipalsController extends Controller
         return redirect('admin/principals');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     *
-     * @return \Illuminate\View\View
-     */
     public function show($id)
     {
         $principal = Principal::findOrFail($id);
@@ -66,13 +44,7 @@ class PrincipalsController extends Controller
         return view('admin.principals.show', compact('principal'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     *
-     * @return \Illuminate\View\View
-     */
+
     public function edit($id)
     {
         $principal = Principal::findOrFail($id);
@@ -80,14 +52,7 @@ class PrincipalsController extends Controller
         return view('admin.principals.edit', compact('principal'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  int  $id
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
+
     public function update($id, Request $request)
     {
         
@@ -101,13 +66,6 @@ class PrincipalsController extends Controller
         return redirect('admin/principals');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
     public function destroy($id)
     {
         Principal::destroy($id);

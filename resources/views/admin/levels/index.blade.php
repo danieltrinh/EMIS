@@ -1,7 +1,7 @@
 @extends('backpack::layout')
 
 @section('content')
-    <?php $user = Auth::user(); ?>
+ <?php $user = Auth::user(); ?>
     <div class="container">
         <div class="row">
             <div class="col-md-10">
@@ -15,7 +15,6 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th><th> Name </th>
-                                        {{-- <th> Description </th> --}}
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -24,7 +23,6 @@
                                     <tr>
                                         <td>{{ $item->id }}</td>
                                         <td>{{ $item->name }}</td>
-                                        {{-- <td>{{ $item->description }}</td> --}}
                                         <td>
                                             <a href="{{ url('/admin/levels/' . $item->id) }}" class="btn btn-success btn-xs" title="View Level"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"/></a>
                                             <a href="{{ url('/admin/levels/' . $item->id . '/edit') }}" class="btn btn-primary btn-xs" title="Edit Level"><span class="glyphicon glyphicon-pencil" aria-hidden="true"/></a>
@@ -39,7 +37,6 @@
                                 @endforeach
                                 </tbody>
                             </table>
-                            {{-- <div class="pagination-wrapper"> {!! $levels->render() !!} </div> --}}
                         </div>
                         @endif
                         
@@ -89,7 +86,14 @@
                                         {{-- @endforeach --}}
                                 </div>
                             </div>
-
+                            <div class="form-group">
+                            <label for="school_year_id" class="col-md-3 control-label">School Year</label>
+                                <div class="col-md-6">
+                                    <select name="school_year_id" id="school_year_id" class="form-control">
+                                        <option value="" ></option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label for="grade_id" class="col-md-3 control-label">Grade</label>
                                 <div class="col-md-6">
@@ -102,10 +106,6 @@
                                             ?>
                                             <option value="{{ $current_classroom->grade->id }}" selected>{{ $current_classroom->grade->name }}</option>
                                         @endif
-                                        {{-- @foreach($grades as $item)
-                                        <option value="" ></option>
-                                        <option value="{{ $item->id }}" >{{ $item->name }}</option>
-                                        @endforeach --}}
                                     </select>
                                 </div>
                             </div>
@@ -114,14 +114,10 @@
                                 <div class="col-md-6">
                                     <select name="classroom_id" id="classroom_id" class="form-control">
                                         <option value="" ></option>
-                                        {{-- @foreach($classrooms as $item)
-                                        <option value="{{ $item->id }}" >{{ $item->name }}</option>
-                                        @endforeach --}}
                                     </select>
                                 </div>
                             </div>
                         </form>
-                        {{-- <a href="{{ url('/admin/levels/create') }}" class="btn btn-primary btn-xs" title="Add New Level"><span class="glyphicon glyphicon-plus" aria-hidden="true"/></a> --}}
                         <br/>
                         <br/>
                         <div class="table-responsive">

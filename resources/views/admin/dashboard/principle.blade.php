@@ -5,7 +5,8 @@ $school_id = $current_school[0]->id;
 $current_school = \App\School::findOrFail($current_school[0]->id);
 $level = \App\Level::findOrFail($current_school->level['attributes']['id']);
 $grades = $level->grades;
-
+$school_years= getSchoolYears($school_id);
+$countCurrentClasses = countCurrentClasses($school_id,date("Y"));
 ?>
 
 <div class="row" ng-show="dashboardData.role == 'admin'">
@@ -15,7 +16,7 @@ $grades = $level->grades;
 			<div class="info-box bg-aqua reportsDiv">
 				<span class="info-box-icon"><i class="fa fa-building"></i></span>
 				<div class="info-box-content">
-					<span class="info-box-text ng-binding">{{count($current_school->classrooms)}}</span>
+					<span class="info-box-text ng-binding"><?php echo $countCurrentClasses; ?></span>
 					<span class="progress-description ng-binding">Classes</span>
 				</div><!-- /.info-box-content -->
 			</div><!-- /.info-box -->
@@ -72,7 +73,23 @@ $grades = $level->grades;
 						</div>
 					</div>
 				</div>
-<br>
+				<br>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="school_year_graph" class="col-md-3 control-label">School Year</label>
+							<div class="col-md-6">
+								<select name="school_year_graph" id="school_year_graph" class="form-control">
+									<option value="" >Please Choose a School Year</option>
+									@foreach($school_years as $item)
+									<option value="{{ $item['id'] }}" >{{ $item['name'] }}</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br>
 				<div class="row">
 					<div class="col-md-12">
 						<div class="form-group">

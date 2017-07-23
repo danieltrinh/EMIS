@@ -15,7 +15,7 @@
                             <table class="table table-borderless">
                                 <thead>
                                     <tr>
-                                        <th>Grade</th><th> Name </th><th> School </th><th>Actions</th>
+                                        <th>Grade</th><th> Name </th><th> School </th><th> School Year </th><th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -24,6 +24,7 @@
                                         <td>{{ $item->grade['name'] }}</td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->school['name'] }}</td>
+                                        <td><?php echo (intval($item->year) -1)." - ".(intval($item->year)); ?></td>
                                         <td>
                                             <a href="{{ url('/admin/classrooms/' . $item->id) }}" class="btn btn-success btn-xs" title="View Classroom"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"/></a>
                                             <a href="{{ url('/admin/classrooms/' . $item->id . '/edit') }}" class="btn btn-primary btn-xs" title="Edit Classroom"><span class="glyphicon glyphicon-pencil" aria-hidden="true"/></a>

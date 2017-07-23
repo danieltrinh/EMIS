@@ -52,19 +52,35 @@ $(document).ready(function(){
 
         var sid = e.target.value;
         // var gid = $('#grade_id').val();
-        var lid = $('#level_id').val();
 
         console.log(sid);
 
-        $.get('/ajax-grade/' + lid,function(datag){
-        //success data
-        console.log(datag);
-        $('#grade_id').empty();
-        $('#grade_id').append('<option value="">Please choose a grade</option>');
-        $.each(datag, function(index,gradeObj){
-            $('#grade_id').append('<option value="'+gradeObj.id+'">'+gradeObj.name+'</option>');
-        })
+        
+
+         $.get('/ajax-school_year/' + sid,function(datay){
+            //success data
+            console.log(datay);
+            $('#school_year_id').empty();
+            $('#school_year_id').append('<option value="">Please choose a School year</option>');
+            $.each(datay, function(index,yearObj){
+                $('#school_year_id').append('<option value="'+yearObj.id+'">'+yearObj.name+'</option>');
+            })
+        });
     });
+
+    $('#school_year_id').on('change',function(e) {
+        var lid = $('#level_id').val();
+
+
+        $.get('/ajax-grade/' + lid,function(datag){
+            //success data
+            console.log(datag);
+            $('#grade_id').empty();
+            $('#grade_id').append('<option value="">Please choose a grade</option>');
+            $.each(datag, function(index,gradeObj){
+                $('#grade_id').append('<option value="'+gradeObj.id+'">'+gradeObj.name+'</option>');
+            })
+        });
     });
 
     // /* Act on the event */
@@ -75,7 +91,7 @@ $(document).ready(function(){
         var sid = $('#school_id').val();
         $('#filter_header').empty();
         $('#filter_content').empty();
-        $('#filter_header').append('<tr><th> Class </th><th>Actions</th></tr>');
+        $('#filter_header').append('<tr><th> Class </th><th> School Year </th><th>Actions</th></tr>');
         $.get('/ajax-classroom/' + sid + '/' + gid,function(data){
             //success data
             console.log(data);
@@ -85,7 +101,7 @@ $(document).ready(function(){
             $.each(data, function(index,classObj){
 
                 $('#classroom_id').append('<option value="'+classObj.id+'">'+classObj.name+'</option>');
-                $('#filter_content').append('<tr><td>'+classObj.name+'</td><td><a href="'+ baseUrl +'/admin/classrooms/'+ classObj.id +'" class="btn btn-success btn-xs" title="View Class"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"/></a></td>');
+                $('#filter_content').append('<tr><td>'+classObj.name+'</td><td>'+(classObj.year -1)+ '-' + classObj.year +'</td><td><a href="'+ baseUrl +'/admin/classrooms/'+ classObj.id +'" class="btn btn-success btn-xs" title="View Class"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"/></a></td>');
             })
         });
     }
@@ -97,11 +113,12 @@ $(document).ready(function(){
 
         var gid = e.target.value;
         var sid = $('#school_id').val();
+        var yid = $('#school_year_id').val();
 
         $('#filter_header').empty();
         $('#filter_content').empty();
-        $('#filter_header').append('<tr><th> Class </th><th>Actions</th></tr>');
-        $.get('/ajax-classroom/' + sid + '/' + gid,function(data){
+        $('#filter_header').append('<tr><th> Class </th><th> School Year </th><th>Actions</th></tr>');
+        $.get('/ajax-classroom/' + sid + '/' + gid + '/' + yid,function(data){
             //success data
             console.log(data);
             $('#classroom_id').empty();
@@ -110,7 +127,7 @@ $(document).ready(function(){
             $.each(data, function(index,classObj){
 
                 $('#classroom_id').append('<option value="'+classObj.id+'">'+classObj.name+'</option>');
-                $('#filter_content').append('<tr><td>'+classObj.name+'</td><td><a href="'+ baseUrl +'/admin/classrooms/'+ classObj.id +'" class="btn btn-success btn-xs" title="View Class"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"/></a></td>');
+               $('#filter_content').append('<tr><td>'+classObj.name+'</td><td>'+(classObj.year -1)+ '-' + classObj.year +'</td><td><a href="'+ baseUrl +'/admin/classrooms/'+ classObj.id +'" class="btn btn-success btn-xs" title="View Class"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"/></a></td>');
             })
         });
     });
@@ -140,11 +157,12 @@ $(document).ready(function(){
         var gid = e.target.value;
         var uid = $('#user_id').val();
         var sid = $('#school_id').val();
+        var yid = $('#school_year_graph').val();
 
         console.log(uid);
 
         $('#principle_bargraph').empty();
-        $.get('/ajax-principle-dashboard/' + uid + '/' + gid,function(data){
+        $.get('/ajax-principle-dashboard/' + uid + '/' + gid + '/' + yid,function(data){
             console.log(data);
 
             var graphdata = data;
@@ -170,7 +188,7 @@ $(document).ready(function(){
 
         });
 
-        $.get('/ajax-principle-dashboard-gender/' + sid + '/' + gid,function(data){
+        $.get('/ajax-principle-dashboard-gender/' + sid + '/' + gid + '/' + yid,function(data){
             var graphdata = data;
             var ctx = document.getElementById('principle_male_female').getContext('2d');
             var myChart = new Chart(ctx, {

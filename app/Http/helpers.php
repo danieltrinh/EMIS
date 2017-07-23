@@ -45,16 +45,17 @@ function getYearYearResult($year,$student_id){
 	return $result;
 }
 
-function getYearsAverage($student_id){
+function getYearsAverage($student_id,$grade_id = null){
 	$sql = "SELECT ROUND(Avg(ss.year_final),1) as all_subject, ss.year 
 	FROM student_subject as ss
 	JOIN subjects as s
 	WHERE ss.student_id = ".intval($student_id)."
 	AND ss.subject_id = s.id
 	GROUP BY year
-	";
+	ORDER BY year DESC
+	LIMIT ".(int)$grade_id;
 	$result = \DB::select($sql);
-	return $result;
+	return array_reverse ($result);
 }
 
 function getEconomicDisadvantage($school_id){
@@ -131,6 +132,10 @@ function getClassroomPerfomance($students)
 		AND student_id = ".$student->id;
 		$result = \DB::select($sql);
 		array_push($classPerfomance,  $result[0]->average_per_year);
+	}
+	if(count($classPerfomance)==0)
+	{
+		return false;
 	}
 	$avg = array_sum($classPerfomance)/count($classPerfomance);
 	return $avg;
@@ -287,6 +292,34 @@ function getGradeGender($school_id,$grade_id)
 	return $data;
 }
 
+function getSchoolYears($school_id)
+{
+	$sql = "SELECT c.year
+			FROM schools as s 
+			JOIN classrooms as c
+			On s.id= c.school_id
+			WHERE c.year != '' 
+			AND s.id = ".intval($school_id)."
+			GROUP BY c.year
+			ORDER BY c.year DESC";
+	$result = \DB::select($sql);
+	$data = array();
+	foreach ($result as $key => $year ) {
+		$data[$key]['id']= $year->year;
+		$data[$key]['name']= (intval($year->year) -1)." - ".(intval($year->year));
+	}
+	return $data;
+}
+
+ function countCurrentClasses($school_id,$year_id)
+ {
+ 	$sql="SELECT count(*) as count
+			FROM	classrooms
+			WHERE school_id = ".intval($school_id)."
+			AND year = ".intval($year_id);
+	$result = \DB::select($sql);
+	return $result[0]->count;
+ }
 
 ?>
 

@@ -27,7 +27,14 @@
                         <div class="table-responsive">
                             <table class="table table-borderless">
                                 <tbody>
-                                    <tr><th> Name </th><td> {{ $classroom->name }} </td></tr><tr><th> School</th><td> {{ $classroom->school['name']}} </td></tr>
+                                    <tr><th> Name </th><td> {{ $classroom->name }} </td></tr>
+                                    <tr><th> School</th><td> {{ $classroom->school['name']}} </td></tr>
+                                    <tr><th> School Year</th><td> <?php echo (intval($classroom->year) -1)." - ".(intval($classroom->year)); ?></td></tr>
+                                    <?php if ( $classroom->homeroom_teacher ) { 
+                                        $teacher= \App\Teacher::where('id','=',(int)$classroom->homeroom_teacher)->get(); 
+                                        ?>
+                                    <tr><th> Homeroom Teacher</th><td> {{ $teacher[0]->name}} </td></tr>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>

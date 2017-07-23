@@ -24,18 +24,33 @@
             <br/>
 
             <div class="table-responsive">
+            <br>
+            <div class="panel panel-info">
+              <div class="panel-heading">Student Information</div>
               <table class="table table-borderless">
                 <tbody>
-                  <tr><th> Name </th><td> {{ $student->name }} </td></tr><tr><th> Student Id </th><td> {{ $student->student_id }} </td></tr><tr><th> Classroom </th><td> {{ $student->classroom['name'] }} </td></tr>
-                  <canvas id="general_graph" height="280" width="600"></canvas>
+                  <tr><th> Name </th><td> {{ $student->name }} </td></tr>
+                  <tr><th> Student Id </th><td> {{ $student->student_id }} </td></tr>
+                  <tr><th> Classroom </th><td> {{ $student->classroom['name'] }} </td></tr>
+                  <tr><th> Gender </th><td> <?php if ($student->female == 1) echo "Female"; else echo "male"; ?> </td></tr>
+                  <tr><th> Address </th><td> {{ $student->address }} </td></tr>
+                  <tr><th> City/State </th><td> {{ $student->state }} </td></tr>
+                  <tr><th> HomeNumber </th><td> {{ $student->phone_number }} </td></tr>
+                  <tr><th> Economic Disadvantage </th><td> <?php if ($student->economic_disadvantaged==1) echo "Yes";else echo "None";  ?> </td></tr>
+                  <tr><th> Original Hometown </th><td> {{ $student->hometown }} </td></tr>
+
+          
+                  @if ((int)$student->classroom['grade_id'] >1)
+                  <canvas id="general_graph" height="330" width="600"></canvas>
                   <?php 
-                  $data = array();reset($data);
-                  $label = array();reset($label);
-                  $all_year_avg = getYearsAverage($student->id);
-                  foreach ($all_year_avg as $year_avg) {
-                    array_push($label, $year_avg->year);
-                    array_push($data, $year_avg->all_subject);
-                  }
+                    $data = array();reset($data);
+                    $label = array();reset($label);
+                    $all_year_avg = getYearsAverage($student->id,(int)$student->classroom['grade_id']);
+                    foreach ($all_year_avg as $year_avg) {
+                      array_push($label, (intval($year_avg->year) - 1)." - ".(intval($year_avg->year)));
+                      array_push($data, $year_avg->all_subject);
+                    }
+
                   ?>
                   <script type="text/javascript">
                     var ctx = document.getElementById('general_graph').getContext('2d');
@@ -44,33 +59,90 @@
                       data: {
                         labels: <?php echo json_encode($label); ?>,
                         datasets: [{
+                          backgroundColor: 'red',
+                          borderColor: 'red',
+                          fill: false,
+                          label: "Student Grade Performance from School Year <?php echo $label[0];?> to <?php echo $label[count($label)-1]; ?>",
                           data: <?php echo json_encode($data); ?>,
+                          lineTension: 0,
                         }]
                       } ,
                       options: {
                         scales: {
                           yAxes: [{
                             ticks: {
-                              beginAtZero:true
+                              beginAtZero:true,
+                              min:  <?php echo (int)min($data) -2; ?>,
+                              max: 10
                             }
                           }]
                         }
                       }
                     });
                   </script>
+                  @endif
                 </tbody>
               </table>
-            </div>
+              </div>
+              </div>
             <div class="panel panel-default">
-              <div class="panel-heading">Student record</div>
+              <div class="panel-heading">Student yearly record</div>
+                
               <div class="panel-body">
                 <?php  for($grade=1; $grade<=$student->classroom['grade_id'];$grade++){?>
                 <hr>
+                <h3>Grade {{$grade}} - School year of {{date("Y") - ($student->classroom['grade_id']-$grade) - 1}} - {{date("Y") - ($student->classroom['grade_id']-$grade)}}</h3>
+                  <?php 
+                   foreach ($student->student_classroom as $key => $classroom) {
+                    if ($classroom->year == date("Y") - ($student->classroom['grade_id']-$grade))
+                      {
+                      $school_id = $classroom->school_id;
+                      $school= \App\School::where('id','=',$school_id)->get(); 
+                      ?>
+                        <p><b>Class:</b> <?php echo  $classroom->name ; ?> </p>
+                        <p><b>School:</b> <?php echo  $school[0]->name ; ?> </p>
+                      <?php
+                      }
+                  } ?>
+                
                 <canvas id="radar-chart-{{$grade}}" height="280" width="600"></canvas>
-                <h2>Grade {{$grade}} </h2>
-                <h2>Year {{date("Y") - ($student->classroom['grade_id']-$grade)}} </h2>
-                <div class="table-responsive">
-                  <table class="table  table-bordered" style="border: 1px solid">
+                <?php
+                  $data = array();reset($data);
+                  $label = array();reset($label);
+                  $year_result = getYearResult($grade,$student->id);
+                  foreach ($year_result as $result) {
+                    array_push($label, $result->name);
+                    array_push($data, $result->year_final);
+                  }
+                  ?>
+                  <script>
+                    var chartData = <?php echo json_encode($data); ?>;
+                    max =  Math.max.apply(null, chartData);
+                    min =  Math.min.apply(null, chartData);
+                    var ctx = document.getElementById('radar-chart-<?php echo $grade;?>').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                      type: 'radar',
+                      data: {
+                        labels: <?php echo json_encode($label); ?>,
+                        datasets: [{
+                          borderColor: 'blue',
+                          backgroundColor: 'rgba(0,0,255,0.3)',
+                          label: "Student Grade <?php echo $grade; ?> Performance",
+                          data: <?php echo json_encode($data); ?>,
+                        }]
+                      } ,
+                      options: {
+                        scale: {
+                          ticks: {
+                            beginAtZero: true,
+                            max: 10
+                          }
+                        }
+                      }
+                    });
+                  </script>
+                <div class="table-responsive" style="padding-top: 30px">
+                  <table class="table  table-bordered" style="border: 1px solid;font-size: 10.5px">
                    <style>
                     colgroup col.green {
                       background-color: #e3ffc9;
@@ -125,38 +197,7 @@
                     <td>{{$value->s2_final}}</td>
                     <td>{{$value->s2_total}}</td>
                     <td>{{$value->year_final}}</td>
-                  </tr>
-                  <?php
-                  $data = array();reset($data);
-                  $label = array();reset($label);
-
-                  $year_result = getYearResult($grade, $value->student_id);
-                  foreach ($year_result as $result) {
-                    array_push($label, $result->name);
-                    array_push($data, $result->year_final);
-                  }
-                  ?>
-                  <script>
-                    var ctx = document.getElementById('radar-chart-<?php echo $grade;?>').getContext('2d');
-                    var myChart = new Chart(ctx, {
-                      type: 'radar',
-                      data: {
-                        labels: <?php echo json_encode($label); ?>,
-                        datasets: [{
-                          data: <?php echo json_encode($data); ?>,
-                        }]
-                      } ,
-                      options: {
-                        scales: {
-                          yAxes: [{
-                            ticks: {
-                              beginAtZero:true
-                            }
-                          }]
-                        }
-                      }
-                    });
-                  </script>
+                  </tr>        
                   @endforeach
                 </tbody>
               </table>

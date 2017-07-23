@@ -37,14 +37,16 @@ Route::resource('admin/students', 'Admin\\StudentsController');
 Route::resource('admin/guardians', 'Admin\\GuardiansController');
 
 // Route::post('/ajaxClass','AjaxController@index');
-Route::get('/ajax-classroom/{sid}/{gid}', 'AjaxController@ajaxcall');
+Route::get('/ajax-classroom/{sid}/{gid}/{yid}', 'AjaxController@ajaxcall');
 Route::get('/ajax-subject/{id}', 'AjaxController@ajaxsubjectcall');
 Route::get('/ajax-school/{id}', 'AjaxController@ajaxschoolcall');
 Route::get('/ajax-grade/{id}', 'AjaxController@ajaxgradecall');
-Route::get('/ajax-student/{id}', 'AjaxController@ajaxstudentcall');
-Route::get('/ajax-principle-dashboard/{uid}/{gid}', 'AjaxController@ajaxprincipledashboard');
+Route::get('/ajax-school_year/{id}', 'AjaxController@ajaxschoolyearcall');
 
-Route::get('/ajax-principle-dashboard-gender/{sid}/{gid}', 'AjaxController@ajaxprinciplegender');
+Route::get('/ajax-student/{id}', 'AjaxController@ajaxstudentcall');
+Route::get('/ajax-principle-dashboard/{uid}/{gid}/{yid}', 'AjaxController@ajaxprincipledashboard');
+
+Route::get('/ajax-principle-dashboard-gender/{sid}/{gid}/{yid}', 'AjaxController@ajaxprinciplegender');
 
 
 

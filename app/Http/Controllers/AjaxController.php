@@ -14,9 +14,9 @@ use Illuminate\Routing\Controller;
 class AjaxController extends Controller
 {
     //
- public function ajaxcall($sid,$gid){
+ public function ajaxcall($sid,$gid,$yid){
 	// $cid = Input::get('cid');
-   $classrooms= \App\Classroom::where('school_id','=',$sid)->where('grade_id','=',$gid)->get(); 
+   $classrooms= \App\Classroom::where('school_id','=',$sid)->where('grade_id','=',$gid)->where('year','=',$yid)->get(); 
 
    return \Response::json($classrooms);
 
@@ -63,19 +63,30 @@ public function ajaxgradecall($id){
 
 }
 
-public function ajaxprincipledashboard($uid,$gid){
+public function ajaxschoolyearcall($id){
+
+  $result= getSchoolYears($id); 
+
+  return \Response::json($result);
+
+}
+
+public function ajaxprincipledashboard($uid,$gid,$yid){
   $current_school =  getPrincipleSchool($uid); 
   $current_school = \App\School::findOrFail($current_school[0]->id);
   $allClassInfo = array();
 
   foreach ($current_school->classrooms as $classroom) {
-    $class_id = $classroom['attributes']['id'];
-    $class_grade = $classroom['attributes']['grade_id'];
-    $average = getClassroomBehavior($class_id);
-    $perfomance_avg = getClassroomPerfomance($classroom->students); 
-    $allClassInfo [$class_grade] [$class_id]  ['behavior'] = round($average,2);  
-    $allClassInfo [$class_grade] [$class_id]  ['name'] = $classroom['attributes']['name'];  
-    $allClassInfo [$class_grade] [$class_id]  ['perfomance'] = round($perfomance_avg,2);
+    if($classroom->year==$yid)
+    {
+      $class_id = $classroom['attributes']['id'];
+      $class_grade = $classroom['attributes']['grade_id'];
+      $average = getClassroomBehavior($class_id);
+      $perfomance_avg = getClassroomPerfomance($classroom->students); 
+      $allClassInfo [$class_grade] [$class_id]  ['behavior'] = round($average,2);  
+      $allClassInfo [$class_grade] [$class_id]  ['name'] = $classroom['attributes']['name'];  
+      $allClassInfo [$class_grade] [$class_id]  ['perfomance'] = round($perfomance_avg,2);
+    }
   }
 
   $grade = $allClassInfo[$gid];
