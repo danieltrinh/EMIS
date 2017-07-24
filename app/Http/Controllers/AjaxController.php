@@ -150,7 +150,7 @@ public function ajaxaddmember($sid, $name,$role){
   $role = \App\Role::where('name', '=', $role)->firstOrFail();
 
   $user->roles()->attach($role->id);
-$user['password']="aaaaaaa";
+  $user->ps="aaaaaaa";
    return \Response::json($user);
   }
 

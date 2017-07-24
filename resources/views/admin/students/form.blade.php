@@ -160,7 +160,7 @@
             console.log(data);
 
             $('span#user_name').text(data.email);
-            $('span#password').text(data.password);
+            $('span#password').text(data.ps);
             
 
         }).fail(function(e) {
