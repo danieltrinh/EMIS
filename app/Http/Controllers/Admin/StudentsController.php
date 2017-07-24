@@ -58,11 +58,12 @@ class StudentsController extends Controller
 
         $requestData = $request->all();
         
-        Student::create($requestData);
+        $new_student = Student::create($requestData);
+
 
         Session::flash('flash_message', 'Student added!');
 
-        return redirect('admin/students');
+        return redirect('admin/students/'.$new_student->id);
     }
 
     public function show($id)
@@ -88,13 +89,12 @@ class StudentsController extends Controller
     {
 
         $requestData = $request->all();
-        
         $student = Student::findOrFail($id);
         $student->update($requestData);
 
         Session::flash('flash_message', 'Student updated!');
 
-        return redirect('admin/students');
+        return redirect('admin/students/'.$student->id);
     }
 
     public function destroy($id)

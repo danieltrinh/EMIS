@@ -85,16 +85,21 @@
               </table>
               </div>
               </div>
+          @if (getYearResult(1,$student->id))
             <div class="panel panel-default">
               <div class="panel-heading">Student yearly record</div>
-                
               <div class="panel-body">
                 <?php  for($grade=1; $grade<=$student->classroom['grade_id'];$grade++){?>
+                <?php
+                  $data = array();reset($data);
+                  $label = array();reset($label);
+                  $year_result = getYearResult($grade,$student->id); ?>
                 <hr>
                 <h3>Grade {{$grade}} - School year of {{date("Y") - ($student->classroom['grade_id']-$grade) - 1}} - {{date("Y") - ($student->classroom['grade_id']-$grade)}}</h3>
                   <?php 
-                   foreach ($student->student_classroom as $key => $classroom) {
-                    if ($classroom->year == date("Y") - ($student->classroom['grade_id']-$grade))
+                   foreach ($student->student_classroom as $key => $classroom) {?>
+
+                    <?php if ($classroom->year == date("Y") - ($student->classroom['grade_id']-$grade))
                       {
                       $school_id = $classroom->school_id;
                       $school= \App\School::where('id','=',$school_id)->get(); 
@@ -106,11 +111,7 @@
                   } ?>
                 
                 <canvas id="radar-chart-{{$grade}}" height="280" width="600"></canvas>
-                <?php
-                  $data = array();reset($data);
-                  $label = array();reset($label);
-                  $year_result = getYearResult($grade,$student->id);
-                  foreach ($year_result as $result) {
+                <?php  foreach ($year_result as $result) {
                     array_push($label, $result->name);
                     array_push($data, $result->year_final);
                   }
@@ -203,8 +204,10 @@
               </table>
             </div>
             <?php } ?>
+            @endif
           </div>
         </div>
+
       </div>
     </div>
   </div>

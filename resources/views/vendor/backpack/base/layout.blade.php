@@ -18,17 +18,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <!-- Bootstrap 3.3.5 -->
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/') }}/bootstrap/css/bootstrap.min.css">
-    {{-- <link rel="stylesheet" href="{{base_path()}}/custom.css"> --}}
     
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="{{ asset('vendor/adminlte/') }}/dist/js/jquery.min.js"></script>
 <script src="{{ URL::to('/') }}/js/jquery.cookie.js"></script>
 <script src="{{ URL::to('/') }}/js/myscript.js"></script>
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.bundle.min.js"></script>
+<script type="text/javascript" src="{{ asset('vendor/adminlte/') }}/dist/js/Chart.bundle.min.js"></script>
 
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/') }}/dist/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/') }}/dist/css/ionicons.min.css">
 
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/') }}/dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
@@ -159,7 +158,7 @@
     @yield('before_scripts')
 
     <!-- jQuery 2.2.0 -->
-    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script src="{{ asset('vendor/adminlte/') }}/dist/js/jquery-2.2.0.min.js"></script>
     <script>window.jQuery || document.write('<script src="{{ asset('vendor/adminlte') }}/plugins/jQuery/jQuery-2.2.0.min.js"><\/script>')</script>
     <!-- Bootstrap 3.3.5 -->
     <script src="{{ asset('vendor/adminlte') }}/bootstrap/js/bootstrap.min.js"></script>

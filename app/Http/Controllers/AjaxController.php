@@ -10,15 +10,26 @@ use App\Http\Requests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller;	
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Zizaco\Entrust\Traits\EntrustUserTrait;
+
 
 class AjaxController extends Controller
 {
     //
- public function ajaxcall($sid,$gid,$yid){
+ public function ajaxcall($sid,$gid=null,$yid=null){
 	// $cid = Input::get('cid');
-   $classrooms= \App\Classroom::where('school_id','=',$sid)->where('grade_id','=',$gid)->where('year','=',$yid)->get(); 
+  if(!$yid) $yid=date("Y");
+  if($gid!=0){
+    $classrooms= \App\Classroom::where('school_id','=',$sid)->where('grade_id','=',$gid)->where('year','=',$yid)->get(); 
+    return \Response::json($classrooms);
+  }
+  else
+  {
+    $classrooms= \App\Classroom::where('school_id','=',$sid)->where('year','=',$yid)->get(); 
+    return \Response::json($classrooms);
+  }
 
-   return \Response::json($classrooms);
 
  }
 
@@ -120,9 +131,27 @@ public function ajaxprincipledashboard($uid,$gid,$yid){
 }
 
 public function ajaxprinciplegender($sid,$gid){
-  $data = getGradeGender($sid,$gid);
+    $data = getGradeGender($sid,$gid);
 
-  return \Response::json($data);
+    return \Response::json($data);
 
-}
+  }
+
+public function ajaxaddmember($sid, $name,$role){
+  $name = urldecode($name);
+  $sid = urldecode($sid);
+  // $role = Role::where('name','=','admin')->first();
+  $user = new \App\User();
+  $user->name = $name;
+  $user->email = $sid."@emis.com";
+  $user->password = bcrypt("aaaaaaa");
+  $user->save();
+
+  $role = \App\Role::where('name', '=', $role)->firstOrFail();
+
+  $user->roles()->attach($role->id);
+$user['password']="aaaaaaa";
+   return \Response::json($user);
+  }
+
 }

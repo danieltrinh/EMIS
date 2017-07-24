@@ -48,6 +48,9 @@ Route::get('/ajax-principle-dashboard/{uid}/{gid}/{yid}', 'AjaxController@ajaxpr
 
 Route::get('/ajax-principle-dashboard-gender/{sid}/{gid}/{yid}', 'AjaxController@ajaxprinciplegender');
 
+Route::get('/ajax-member/{sid}/{name}/{role}', 'AjaxController@ajaxaddmember');
+
+
 
 
 

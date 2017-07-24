@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Edit Student {{ $student->id }}</div>
+                    <div class="panel-heading">Edit Student {{ $student->name }}</div>
                     <div class="panel-body">
 
                         @if ($errors->any())
@@ -15,7 +15,6 @@
                                 @endforeach
                             </ul>
                         @endif
-
                         {!! Form::model($student, [
                             'method' => 'PATCH',
                             'url' => ['/admin/students', $student->id],

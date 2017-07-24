@@ -71,7 +71,6 @@ $(document).ready(function(){
     $('#school_year_id').on('change',function(e) {
         var lid = $('#level_id').val();
 
-
         $.get('/ajax-grade/' + lid,function(datag){
             //success data
             console.log(datag);

@@ -12,10 +12,10 @@ class Student extends Model
     
     protected $primaryKey = 'id';
 
-    
-    protected $fillable = ['name', 'student_id', 'school_id','classroom_id'];
+    public $timestamps = false;
 
     
+    protected $fillable = ['name', 'student_id', 'school_id','classroom_id','bd','female','address','state','hometown','economic_disadvantaged','phone_number'];
 
     public function classroom()
 	{

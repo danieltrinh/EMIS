@@ -19,14 +19,34 @@
         <?php $schools=\App\School::all();   ?>
 
         <select class="form-control" id="school_id" name="school_id">
+         <option value="">Please choose a school</option>
           @foreach($schools as $school)
-                <option value="{{ $school->id }}">{{ $school->name }}</option>
+                @if (isset($student) && $student->school_id == $school->id)
+                    <option value="{{ $school->id }}" selected>{{ $school->name }}</option>
+                    <script>
+                        $(document).ready(function(){
+                        /* Act on the event */
+                                var sid =$('#school_id').val();
+                                $.get('/ajax-classroom/' + sid + '/' + 0 + '/' + <?php echo date("Y"); ?>,function(data){
+                                    //success data
+                                    console.log(data);
+                                    $('#classroom_id').empty();
+                                    $.each(data, function(index,classObj){
+                                        $('#classroom_id').append('<option value="'+classObj.id+'">'+classObj.name+'</option>');
+                                    })
+                                    $('#classroom_id').val({{ $school->classroom_id }});
+                                });
+                        });
+                    </script>
+                @else
+                    <option value="{{ $school->id }}">{{ $school->name }}</option>
+                @endif
           @endforeach
         </select>
         {!! $errors->first('school_id', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
-<div class="form-group {{ $errors->has('classroom_id') ? 'has-error' : ''}}">
+<div class="form-group">
     {!! Form::label('classroom', 'Classroom', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
         {{-- {!! Form::select('classroom_id', $classrooms, old('classroom_id'), ['class' => 'form-control']) !!} --}}
@@ -38,6 +58,77 @@
     </div>
 </div>
 
+<div class="form-group">
+    {!! Form::label('BirthDay', 'BirthDay', ['class' => 'col-md-4 control-label']) !!}
+    <div class="col-md-6">
+        {{-- {!! Form::select('classroom_id', $classrooms, old('classroom_id'), ['class' => 'form-control']) !!} --}}
+        @if( isset($student) && $student->bd)
+            <?php $newDate = date("Y-m-d", strtotime(str_replace('/', '-', $student->bd))); ?>
+            <input type="date" value="{{$newDate}}" name="bd" >
+        @else
+            <input type="date" value="" name="bd">
+        @endif
+        {!! $errors->first('classroom_id', '<p class="help-block">:message</p>') !!}
+    </div>
+</div>
+
+<div class="form-group">
+    {!! Form::label('Gender', 'Gender', ['class' => 'col-md-4 control-label']) !!}
+    <div class="col-md-6">
+       <input type="radio" name="female" value="0" <?php if( isset($student) && $student->female!=1) echo "checked"; ?>> Male<br>
+       <input type="radio" name="female" value="1" <?php if( isset($student) && $student->female==1) echo "checked"; ?>> Female<br>
+                {!! $errors->first('classroom_id', '<p class="help-block">:message</p>') !!}
+    </div>
+</div>
+
+<div class="form-group">
+    {!! Form::label('Address', 'Address', ['class' => 'col-md-4 control-label']) !!}
+    <div class="col-md-6">
+       {!! Form::text('address', null, ['class' => 'form-control']) !!}
+    </div>
+</div>
+
+<div class="form-group">
+    {!! Form::label('State', 'State', ['class' => 'col-md-4 control-label']) !!}
+    <div class="col-md-6">
+       {!! Form::text('state', null, ['class' => 'form-control']) !!}
+    </div>
+</div>
+
+<div class="form-group">
+    {!! Form::label('Original Hometown', 'Original Hometown', ['class' => 'col-md-4 control-label']) !!}
+    <div class="col-md-6">
+       {!! Form::text('hometown', null, ['class' => 'form-control']) !!}
+    </div>
+</div>
+
+<div class="form-group">
+    {!! Form::label('Economic Disadvantaged', 'Economic Disadvantaged', ['class' => 'col-md-4 control-label']) !!}
+    <div class="col-md-6">
+       <input type="radio" name="economic_disadvantaged" value="1" <?php if( isset($student) && $student->economic_disadvantaged!=1) echo "checked"; ?>> Yes<br>
+       <input type="radio" name="economic_disadvantaged" value="0" <?php if( isset($student) && $student->economic_disadvantaged==1) echo "checked"; ?>> No<br>
+    </div>
+</div>
+
+<div class="form-group">
+    {!! Form::label('Phone Number', 'Phone Number', ['class' => 'col-md-4 control-label']) !!}
+    <div class="col-md-6">
+       {!! Form::tel('phone_number', null, ['class' => 'form-control']) !!}
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-offset-4 col-md-4">
+        {!! Form::submit(isset($submitButtonText) ? $submitButtonText : 'Create', ['class' => 'btn btn-primary']) !!}
+        @if (strtolower($submitButtonText)=="update")
+            <div class="btn btn-danger" id="assign_student" >Assign Student Account</div>
+        @endif
+    </div>
+</div>
+<div class="row" id="account_display">
+    <p><b>User email</b><span class="user_name"></span></p>
+    <p><b>Password</b><span class="password"></span></p>
+</div>
 <script>
 
     $('#school_id').on('change',function(e) {
@@ -45,8 +136,8 @@
 
         console.log(e);
 
-        var cid = e.target.value;
-        $.get('/ajax-classroom/' + cid,function(data){
+        var sid = e.target.value;
+        $.get('/ajax-classroom/' + sid + '/' + 0 + '/' + <?php echo date("Y"); ?>,function(data){
             //success data
             console.log(data);
             $('#classroom_id').empty();
@@ -56,9 +147,24 @@
             })
         });
     });
+
+    $('#assign_student').on('click',function(e) {
+        /* Act on the event */
+
+        var sid = encodeURIComponent($('input#student_id').val());
+        var role = 'student';
+        var name = encodeURIComponent($('input#name').val());
+
+        $.get('/ajax-member/' + sid + '/' + name + '/' + role  ,function(data){
+            //success data
+            console.log(data);
+
+            $('span#user_name').text(data.email);
+            $('span#password').text(data.password);
+            
+
+        }).fail(function(e) {
+         console.log(e.error());
+     });
+    });
 </script>
-<div class="form-group">
-    <div class="col-md-offset-4 col-md-4">
-        {!! Form::submit(isset($submitButtonText) ? $submitButtonText : 'Create', ['class' => 'btn btn-primary']) !!}
-    </div>
-</div>
