@@ -11,7 +11,7 @@ class Teacher extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable = ['name', 'school_id', 'level_id'];
+    protected $fillable = ['name', 'school_id', 'level_id','bd','female','address','state','email','hometown','phone_number'];
 
     public function school()
 	{

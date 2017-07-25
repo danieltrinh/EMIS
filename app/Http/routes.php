@@ -50,6 +50,8 @@ Route::get('/ajax-principle-dashboard-gender/{sid}/{gid}/{yid}', 'AjaxController
 
 Route::get('/ajax-member/{sid}/{name}/{role}', 'AjaxController@ajaxaddmember');
 
+Route::get('/ajax-unassign/{sid}', 'AjaxController@ajaxdeletemember');
+Route::get('/ajax-reset_pass/{sid}', 'AjaxController@ajaxresetpassword');
 
 
 

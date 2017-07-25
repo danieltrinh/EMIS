@@ -321,6 +321,16 @@ function getSchoolYears($school_id)
 	return $result[0]->count;
  }
 
+ function getUserIdFromSid($sid)
+ {
+ 	$sql="SELECT id
+			FROM users 
+			WHERE email LIKE '%".$sid."%'";
+	$result = \DB::select($sql);
+	if(empty($result))
+		return false;
+	return $result[0]->id;
+ }
 
 ?>
 

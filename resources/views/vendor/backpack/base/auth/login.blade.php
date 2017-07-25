@@ -6,7 +6,7 @@
             <img id="level_cover" style="width: 100%">
             <p id="long_des" style="padding-top: 1rem;"></p>
 
-            <h4  id="title"> List of <span></span> School in the area</h4>
+            <h4  id="title"></h4>
             <ul id="school_list">
             </ul>
             </div>
@@ -47,7 +47,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+{{--                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <div class="checkbox">
                                     <label>
@@ -55,7 +55,7 @@
                                     </label>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
@@ -75,6 +75,11 @@
     $(document).ready(function(){
          if( $("#login_intro").length > 0)
     {
+        if ($.cookie('level_login'))
+        {
+            $("h4#title").html("List of <span></span> School in the area"); 
+        }
+        
         if ($.cookie('level_login')==1)
         {
             $("#login_intro #level_cover").attr('src','{{ URL::to('/') }}/img/1.png')

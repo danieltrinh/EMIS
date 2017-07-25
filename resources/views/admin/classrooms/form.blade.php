@@ -6,9 +6,9 @@
     </div>
 </div>
 <div class="form-group {{ $errors->has('school_id') ? 'has-error' : ''}}">
-    {!! Form::label('school_id', 'School Id', ['class' => 'col-md-4 control-label']) !!}
+    {!! Form::label('school_id', 'School', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
-        {!! Form::number('school_id', null, ['class' => 'form-control']) !!}
+        {!! Form::select('school_id', $schools, old('school_id'), ['class' => 'form-control']) !!} 
         {!! $errors->first('school_id', '<p class="help-block">:message</p>') !!}
     </div>
 </div>

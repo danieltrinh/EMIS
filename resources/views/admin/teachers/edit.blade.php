@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Edit Teacher {{ $teacher->id }}</div>
+                    <div class="panel-heading">Edit Teacher {{ $teacher->name }}</div>
                     <div class="panel-body">
 
                         @if ($errors->any())

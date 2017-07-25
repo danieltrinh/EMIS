@@ -65,7 +65,7 @@ class TeachersController extends Controller
 
         Session::flash('flash_message', 'Teacher added!');
 
-        return redirect('admin/teachers');
+         return redirect('admin/teachers/'.$teacher->id);
     }
 
 
@@ -102,7 +102,7 @@ class TeachersController extends Controller
 
         Session::flash('flash_message', 'Teacher updated!');
 
-        return redirect('admin/teachers');
+        return redirect('admin/teachers/'.$teacher->id);
     }
 
 

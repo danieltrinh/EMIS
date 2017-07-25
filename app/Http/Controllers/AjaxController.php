@@ -141,17 +141,36 @@ public function ajaxaddmember($sid, $name,$role){
   $name = urldecode($name);
   $sid = urldecode($sid);
   // $role = Role::where('name','=','admin')->first();
+  $ps = substr(md5(microtime()),rand(0,26),2).strtolower(preg_replace("/[^a-zA-Z0-9]+/", "", urldecode($sid))).substr(md5(microtime()),rand(0,26),2);
+
   $user = new \App\User();
   $user->name = $name;
   $user->email = $sid."@emis.com";
-  $user->password = bcrypt("aaaaaaa");
+  $user->password = bcrypt($ps);
   $user->save();
 
   $role = \App\Role::where('name', '=', $role)->firstOrFail();
 
   $user->roles()->attach($role->id);
-  $user->ps="aaaaaaa";
+  $user->ps=$ps;
    return \Response::json($user);
   }
 
+public function ajaxdeletemember($sid){
+  $uid = getUserIdFromSid(urldecode($sid));
+  $user = \App\User::findOrFail($uid);
+  $user->delete();
+
+  return \Response::json("Unassign Student Success");
+  }
+
+public function ajaxresetpassword($sid){
+  $uid = getUserIdFromSid(urldecode($sid));
+  $ps = substr(md5(microtime()),rand(0,26),2).strtolower(preg_replace("/[^a-zA-Z0-9]+/", "", urldecode($sid))).substr(md5(microtime()),rand(0,26),2);
+  $user = \App\User::findOrFail($uid);
+  $user->password = bcrypt($ps);
+  $user->save();
+  $user->ps=$ps;
+  return \Response::json($user);
+  }
 }

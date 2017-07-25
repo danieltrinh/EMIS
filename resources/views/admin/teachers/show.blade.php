@@ -47,6 +47,12 @@
                                         <br>
                                     @endforeach
                                     </td></tr>
+                                    <tr><th> Gender </th><td> <?php if ($teacher->female == 1) echo "Female"; else echo "male"; ?> </td></tr>
+                                    <tr><th> Address </th><td> {{ $teacher->address }} </td></tr>
+                                    <tr><th> City/State </th><td> {{ $teacher->state }} </td></tr>
+                                    <tr><th> HomeNumber </th><td> {{ $teacher->phone_number }} </td></tr>
+                                    <tr><th> Original Hometown </th><td> {{ $teacher->hometown }} </td></tr>
+                                     <tr><th> Email </th><td> {{ $teacher->email }} </td></tr>
                                 </tbody>
                             </table>
                         </div>

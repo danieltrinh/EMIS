@@ -1,3 +1,4 @@
+<?php if (isset($student)) $student_id = $student->student_id;?>
 <div class="form-group {{ $errors->has('name') ? 'has-error' : ''}}">
     {!! Form::label('name', 'Name', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
@@ -23,7 +24,7 @@
           @foreach($schools as $school)
                 @if (isset($student) && $student->school_id == $school->id)
                     <option value="{{ $school->id }}" selected>{{ $school->name }}</option>
-                    <script>
+                     <script>
                         $(document).ready(function(){
                         /* Act on the event */
                                 var sid =$('#school_id').val();
@@ -61,7 +62,6 @@
 <div class="form-group">
     {!! Form::label('BirthDay', 'BirthDay', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
-        {{-- {!! Form::select('classroom_id', $classrooms, old('classroom_id'), ['class' => 'form-control']) !!} --}}
         @if( isset($student) && $student->bd)
             <?php $newDate = date("Y-m-d", strtotime(str_replace('/', '-', $student->bd))); ?>
             <input type="date" value="{{$newDate}}" name="bd" >
@@ -120,51 +120,100 @@
 <div class="form-group">
     <div class="col-md-offset-4 col-md-4">
         {!! Form::submit(isset($submitButtonText) ? $submitButtonText : 'Create', ['class' => 'btn btn-primary']) !!}
-        @if (strtolower($submitButtonText)=="update")
-            <div class="btn btn-danger" id="assign_student" >Assign Student Account</div>
-        @endif
     </div>
 </div>
-<div class="row" id="account_display">
-    <p><b>User email</b><span class="user_name"></span></p>
-    <p><b>Password</b><span class="password"></span></p>
-</div>
-<script>
 
-    $('#school_id').on('change',function(e) {
-        /* Act on the event */
 
-        console.log(e);
+@if ( isset($submitButtonText) && strtolower($submitButtonText)=="update" && isset($student_id))
+<?php  $user_id = getUserIdFromSid($student_id); ?>
+<div class="row">
+    <div class="col-lg-4"> 
+        <div class="btn btn-danger" style="width: 100%; <?php if(!empty($user_id)) echo "display:none;" ?>" id="assign_student" >Assign Student Account</div>
+        <div class="btn btn-warning" style="width: 100%; <?php if(empty($user_id)) echo "display:none;" ?>" id="unassign_student" >Unassign Student Account</div>
+        <div class="btn btn-success" style="width: 100%; <?php if(empty($user_id)) echo "display:none;" ?>" id="reset_pass" >Reset Password</div>
+    </div>
+    <div class="col-lg-6" id="account_display">
+        <p><b>User email: </b><span id="user_name"></span></p>
+        <p><b>Password: </b><span id="password"></span></p>
+    </div>
+    <script>
+        $('#assign_student').on('click',function(e) {
+            /* Act on the event */
 
-        var sid = e.target.value;
-        $.get('/ajax-classroom/' + sid + '/' + 0 + '/' + <?php echo date("Y"); ?>,function(data){
-            //success data
-            console.log(data);
-            $('#classroom_id').empty();
-            $.each(data, function(index,classObj){
+            var sid = encodeURIComponent($('input#student_id').val());
+            var role = 'student';
+            var name = encodeURIComponent($('input#name').val());
 
-                $('#classroom_id').append('<option value="'+classObj.id+'">'+classObj.name+'</option>');
-            })
-        });
-    });
-
-    $('#assign_student').on('click',function(e) {
-        /* Act on the event */
-
-        var sid = encodeURIComponent($('input#student_id').val());
-        var role = 'student';
-        var name = encodeURIComponent($('input#name').val());
-
-        $.get('/ajax-member/' + sid + '/' + name + '/' + role  ,function(data){
+            $.get('/ajax-member/' + sid + '/' + name + '/' + role  ,function(data){
             //success data
             console.log(data);
 
             $('span#user_name').text(data.email);
             $('span#password').text(data.ps);
             
+             $('#assign_student').fadeOut();
+            $('#unassign_student').fadeIn();
+            $('#reset_pass').fadeIn();
 
         }).fail(function(e) {
          console.log(e.error());
      });
     });
+
+        $('#unassign_student').on('click',function(e) {
+            /* Act on the event */
+            var sid = encodeURIComponent($('input#student_id').val());
+            $.get('/ajax-unassign/' + sid  ,function(data){
+                //success data
+            // alert(data);
+
+                $('span#user_name').text('');
+                $('span#password').text('');
+                
+                $('#assign_student').fadeIn();
+                $('#unassign_student').fadeOut();
+                $('#reset_pass').fadeOut();
+
+            }).fail(function(e) {
+               console.log(e.error());
+           });
+        });
+
+        $('#reset_pass').on('click',function(e) {
+            /* Act on the event */
+            var sid = encodeURIComponent($('input#student_id').val());
+            $.get('/ajax-reset_pass/' + sid  ,function(data){
+                //success data
+                console.log(data);
+
+                $('span#user_name').text(data.email);
+                $('span#password').text(data.ps);
+                
+
+            }).fail(function(e) {
+               console.log(e.error());
+           });
+        });
+    </script>
+</div> 
+@else
+
+<script>
+        $('#school_id').on('change',function(e) {
+            /* Act on the event */
+                console.log(e);
+
+                var sid = e.target.value;
+                $.get('/ajax-classroom/' + sid + '/' + 0 + '/' + <?php echo date("Y"); ?>,function(data){
+                //success data
+                console.log(data);
+                $('#classroom_id').empty();
+                $.each(data, function(index,classObj){
+
+                    $('#classroom_id').append('<option value="'+classObj.id+'">'+classObj.name+'</option>');
+                })
+            });
+        });
 </script>
+
+@endif

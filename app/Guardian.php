@@ -11,7 +11,7 @@ class Guardian extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable = ['name', 'radio'];
+    protected $fillable = ['name', 'role','bd','job','phone_number'];
 
     public function student()
     {

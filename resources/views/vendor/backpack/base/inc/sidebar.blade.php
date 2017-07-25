@@ -1,5 +1,13 @@
 @if (Auth::check())
-    <?php $user = Auth::user(); ?>
+    <?php $user = Auth::user();
+
+    if(Request::url() && Request::is("admin/dashboard") && $user->hasRole('admin') )
+    { ?>
+      <script type="text/javascript">
+        window.location = "{{ url('/admin/levels') }}";//here double curly bracket
+      </script>
+    <?php }
+     ?>
     <!-- Left side column. contains the sidebar -->
     <aside class="main-sidebar">
       <!-- sidebar: style can be found in sidebar.less -->
@@ -20,7 +28,9 @@
           <!-- ================================================ -->
           <!-- ==== Recommended place for admin menu items ==== -->
           <!-- ================================================ -->
+          @if (!$user->hasRole('admin'))
           <li><a href="{{ url('admin/dashboard') }}"><i class="fa fa-dashboard"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
+          @endif
 
           @if ($user->hasRole('admin') || $user->hasRole('teacher') || $user->hasRole('principle') )
           <li><a href="{{ url('admin/levels') }}"><i class="fa fa-bars"></i> <span>Filter</span></a></li>
@@ -48,10 +58,6 @@
 
           @if ($user->hasRole('admin'))
           <li><a href="{{ url('admin/grades') }}"><i class="fa fa-info-circle"></i> <span>Grades</span></a></li>
-          @endif
-
-          @if(Entrust::hasRole('admin'))
-          <li><a href="{{ url('admin/subjects') }}"><i class="fa fa-book"></i> <span>Subjects</span></a></li>
           @endif
           <!-- ======================================= -->
           <li class="header">{{ trans('backpack::base.user') }}</li>

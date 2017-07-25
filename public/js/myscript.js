@@ -47,15 +47,11 @@ $(document).ready(function(){
 
     $('#school_id').on('change',function(e) {
         /* Act on the event */
-
         console.log(e);
 
         var sid = e.target.value;
         // var gid = $('#grade_id').val();
-
         console.log(sid);
-
-        
 
          $.get('/ajax-school_year/' + sid,function(datay){
             //success data

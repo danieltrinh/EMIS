@@ -37,7 +37,12 @@ class ClassroomsController extends Controller
 
     public function create()
     {
-        return view('admin.classrooms.create');
+        $relations = [
+            'schools' => \App\School::get()->pluck('name', 'id'),
+            'classrooms' => \App\Classroom::get()->pluck('name', 'id'),
+            'subjects' => \App\Subject::get()->pluck('name', 'id'),
+        ];
+        return view('admin.classrooms.create', $relations);
     }
 
     public function store(Request $request)
@@ -63,8 +68,14 @@ class ClassroomsController extends Controller
     public function edit($id)
     {
         $classroom = Classroom::findOrFail($id);
+         $relations = [
+            'levels' => \App\Level::get()->pluck('name', 'id')->prepend(''),
+            'schools' => \App\School::get()->pluck('name', 'id'),
+            'classrooms' => \App\Classroom::get()->pluck('name', 'id'),
+            'subjects' => \App\Subject::get()->pluck('name', 'id'),
 
-        return view('admin.classrooms.edit', compact('classroom'));
+        ];
+        return view('admin.classrooms.edit', compact('classroom')+$relations);
     }
 
     public function update($id, Request $request)
