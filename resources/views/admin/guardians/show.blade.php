@@ -6,8 +6,9 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">Guardian {{ $guardian->name }}</div>
+                    <?php $user = Auth::user(); ?>
                     <div class="panel-body">
-
+                         @if ($user->hasRole('admin') || $user->hasRole('teacher') || $user->hasRole('principle') )
                         <a href="{{ url('admin/guardians/' . $guardian->id . '/edit') }}" class="btn btn-primary btn-xs" title="Edit Guardian"><span class="glyphicon glyphicon-pencil" aria-hidden="true"/></a>
                         {!! Form::open([
                             'method'=>'DELETE',
@@ -21,6 +22,7 @@
                                     'onclick'=>'return confirm("Confirm delete?")'
                             ))!!}
                         {!! Form::close() !!}
+                        @endif
                         <br/>
                         <br/>
 

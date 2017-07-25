@@ -52,7 +52,7 @@
           <li><a href="{{ url('admin/teachers') }}"><i class="fa fa-male"></i> <span>Teachers</span></a></li>
           @endif
 
-          @if ($user->hasRole('admin') || $user->hasRole('teacher') || $user->hasRole('principle') )
+          @if ($user->hasRole('admin') || $user->hasRole('teacher') || $user->hasRole('principle') || $user->hasRole('student'))
           <li><a href="{{ url('admin/guardians') }}"><i class="fa fa-user"></i> <span>Parents</span></a></li>
           @endif
 

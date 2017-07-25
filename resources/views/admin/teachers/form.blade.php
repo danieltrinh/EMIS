@@ -200,7 +200,7 @@
         <div class="btn btn-success" style="width: 100%; <?php if(empty($user_id)) echo "display:none;" ?>" id="reset_pass" >Reset Password</div>
     </div>
     <div class="col-lg-6" id="account_display">
-    <p><b>User email: </b><span id="user_name"><?php if(!empty($user_id)) echo $user_id."@emis.com" ?></span></p>
+    <p><b>User email: </b><span id="user_name"></span></p>
         <p><b>Password: </b><span id="password"></span></p>
     </div>
     <script>

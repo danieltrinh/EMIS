@@ -1,3 +1,4 @@
+<?php $user = Auth::user(); ?>
 @extends('backpack::layout')
 
 @section('content')
@@ -7,15 +8,15 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Guardians</div>
                     <div class="panel-body">
-
+                        @if ($user->hasRole('admin') || $user->hasRole('teacher') || $user->hasRole('principle') )
                         <a href="{{ url('/admin/guardians/create') }}" class="btn btn-primary btn-xs" title="Add New Guardian"><span class="glyphicon glyphicon-plus" aria-hidden="true"/></a>
+                        @endif
                         <br/>
                         <br/>
                         <div class="table-responsive">
                             <table class="table table-borderless">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
                                         <th> Name </th>
                                         <th> Role </th>
                                         <th> Of Student </th>
@@ -25,7 +26,6 @@
                                 <tbody>
                                 @foreach($guardians as $item)
                                     <tr>
-                                        <td>{{ $item->id }}</td>
                                         <td>{{ $item->name }}</td>
                                         <td>
                                         @if ( $item->role == 1 )
@@ -40,6 +40,7 @@
                                         <td>{{ $item->student['name'] }}</td>
                                         <td>
                                             <a href="{{ url('/admin/guardians/' . $item->id) }}" class="btn btn-success btn-xs" title="View Guardian"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"/></a>
+                                            @if ($user->hasRole('admin') || $user->hasRole('teacher') || $user->hasRole('principle') )
                                             <a href="{{ url('/admin/guardians/' . $item->id . '/edit') }}" class="btn btn-primary btn-xs" title="Edit Guardian"><span class="glyphicon glyphicon-pencil" aria-hidden="true"/></a>
                                             {!! Form::open([
                                                 'method'=>'DELETE',
@@ -52,6 +53,7 @@
                                                         'title' => 'Delete Guardian',
                                                         'onclick'=>'return confirm("Confirm delete?")'
                                                 )) !!}
+                                            @endif
                                             {!! Form::close() !!}
                                         </td>
                                     </tr>

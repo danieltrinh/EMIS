@@ -25,7 +25,9 @@ class GuardiansController extends Controller
         }
         elseif ($user && $user->hasRole('teacher')) 
         {
-            $current_classroom = getTeacherClassroom($user->id);
+            $teacher_id = explode("@", $user->email);
+            $teacher_id = $teacher_id[0]; 
+            $current_classroom = getTeacherClassroom($teacher_id);
             $current_classroom_id = $current_classroom[0]->id;
             $current_classroom = \App\Classroom::findOrFail($current_classroom_id);
             $guardians = Guardian::get();
@@ -36,6 +38,17 @@ class GuardiansController extends Controller
                     unset($guardians[$key]);
                 }
             }
+            $relations = [
+            'guardians' => $guardians,
+            ];
+            return view('admin.guardians.index', $relations);
+        }
+        elseif ($user && $user->hasRole('student')) 
+        {
+            $student_id = explode("@", $user->email);
+            $student_id = $student_id[0]; 
+             $sid = getSid($student_id);
+            $guardians = Guardian::where('student_id', $sid)->paginate(25);
             $relations = [
             'guardians' => $guardians,
             ];

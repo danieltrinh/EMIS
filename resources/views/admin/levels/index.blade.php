@@ -55,6 +55,7 @@
                                             $current_school =  getPrincipleSchool($user->id); 
                                             $current_school = \App\School::findOrFail($current_school[0]->id);
                                             ?>
+                                            <script>$(document).ready(function(){ $('#school_id').trigger("change") });</script>
                                             <option value="{{ $current_school->level->id }}" selected>{{ $current_school->level->name }}</option>
                                         @endif
                                     </select>
@@ -74,7 +75,9 @@
                                             <option value="{{ $current_school->id }}" selected>{{ $current_school->name }}</option>
                                         @elseif ($user->hasRole('teacher'))
                                             <?php
-                                                $current_classroom = getTeacherClassroom($user->id);
+                                                $teacher_id = explode("@", $user->email);
+                                                $teacher_id = $teacher_id[0]; 
+                                                $current_classroom = getTeacherClassroom($teacher_id);
                                                 $current_classroom_id = $current_classroom[0]->id;
                                                 $current_classroom = \App\Classroom::findOrFail($current_classroom_id);
                                             ?>
@@ -86,11 +89,16 @@
                                         {{-- @endforeach --}}
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group"  <?php if (!$user->hasRole('admin') && !$user->hasRole('principle')) echo 'style="display:none"';?>>
                             <label for="school_year_id" class="col-md-3 control-label">School Year</label>
                                 <div class="col-md-6">
                                     <select name="school_year_id" id="school_year_id" class="form-control">
+                                     @if ($user->hasRole('teacher'))
+                                        <option value="{{ date("Y") }}" selected></option>
+                                        <script>$(document).ready(function(){ $('#grade_id').trigger("change") });</script>
+                                     @else
                                         <option value="" ></option>
+                                    @endif
                                     </select>
                                 </div>
                             </div>
@@ -100,7 +108,9 @@
                                     <select name="grade_id" id="grade_id" class="form-control">
                                         @if ($user->hasRole('teacher'))
                                             <?php
-                                                $current_classroom = getTeacherClassroom($user->id);
+                                                $teacher_id = explode("@", $user->email);
+                                                $teacher_id = $teacher_id[0]; 
+                                                $current_classroom = getTeacherClassroom($teacher_id);
                                                 $current_classroom_id = $current_classroom[0]->id;
                                                 $current_classroom = \App\Classroom::findOrFail($current_classroom_id);
                                             ?>

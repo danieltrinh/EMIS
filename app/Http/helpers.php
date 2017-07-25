@@ -91,13 +91,11 @@ function getPrincipleSchool($principle_id)
 * @param  id
 * @return string
 */
-function getTeacherClassroom($id)
+function getTeacherClassroom($teacher_id)
 {
 	$sql = "SELECT classrooms.* 
 	FROM classrooms 
-	JOIN teachers 
-	ON teachers.`id` = classrooms.`homeroom_teacher`
-	WHERE teachers.`user_id` = ".intval($id);
+	WHERE classrooms.`homeroom_teacher` = '".$teacher_id."' ORDER BY year DESC";
 	$result = \DB::select($sql);
 	return $result;
 }
@@ -326,6 +324,17 @@ function getSchoolYears($school_id)
  	$sql="SELECT id
 			FROM users 
 			WHERE email LIKE '%".$sid."%'";
+	$result = \DB::select($sql);
+	if(empty($result))
+		return false;
+	return $result[0]->id;
+ }
+
+  function getSid($student_id)
+ {
+ 	$sql="SELECT id
+			FROM students 
+			WHERE student_id LIKE '%".$student_id."%'";
 	$result = \DB::select($sql);
 	if(empty($result))
 		return false;
