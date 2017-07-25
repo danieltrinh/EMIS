@@ -25,37 +25,48 @@ Route::group(['middleware'=>'web'], function (){
 
 });
 		// Route::resource('subjects', 'Admin\\SubjectsController');
+Route::group(array('middleware' => array('role:admin|principle|teacher|student|parent')), function() {
+	Route::group(array('middleware' => array('role:admin|principle')), function() {
+		Route::resource('admin/classrooms', 'Admin\\ClassroomsController');
+		Route::resource('admin/grades', 'Admin\\GradesController');
+	});
 
-Route::resource('admin/posts', 'Admin\\PostsController');
-Route::resource('admin/levels', 'Admin\\LevelsController');
-Route::resource('admin/grades', 'Admin\\GradesController');
-Route::resource('admin/schools', 'Admin\\SchoolsController');
+	Route::group(array('middleware' => array('role:admin|principle|teacher|parent')), function() {
+		Route::resource('admin/students', 'Admin\\StudentsController');
+		Route::resource('admin/teachers',  'Admin\\TeachersController');
 
-Route::resource('admin/classrooms', 'Admin\\ClassroomsController');
-Route::resource('admin/teachers',  'Admin\\TeachersController');
-Route::resource('admin/students', 'Admin\\StudentsController');
-Route::resource('admin/guardians', 'Admin\\GuardiansController');
+	});
 
-// Route::post('/ajaxClass','AjaxController@index');
-Route::get('/ajax-classroom/{sid}/{gid}/{yid}', 'AjaxController@ajaxcall');
-Route::get('/ajax-subject/{id}', 'AjaxController@ajaxsubjectcall');
-Route::get('/ajax-school/{id}', 'AjaxController@ajaxschoolcall');
-Route::get('/ajax-grade/{id}', 'AjaxController@ajaxgradecall');
-Route::get('/ajax-school_year/{id}', 'AjaxController@ajaxschoolyearcall');
+	Route::group(array('middleware' => array('role:admin|principle|teacher')), function() {
+		Route::resource('admin/classrooms', 'Admin\\ClassroomsController');
+		Route::resource('admin/levels', 'Admin\\LevelsController');
+	});
 
-Route::get('/ajax-student/{id}', 'AjaxController@ajaxstudentcall');
-Route::get('/ajax-principle-dashboard/{uid}/{gid}/{yid}', 'AjaxController@ajaxprincipledashboard');
+	Route::group(array('middleware' => array('role:admin')), function() {
+		Route::resource('admin/schools', 'Admin\\SchoolsController');
+	});
+	
+	Route::resource('admin/posts', 'Admin\\PostsController');
 
-Route::get('/ajax-principle-dashboard-gender/{sid}/{gid}/{yid}', 'AjaxController@ajaxprinciplegender');
+	Route::resource('admin/guardians', 'Admin\\GuardiansController');
+});
 
-Route::get('/ajax-member/{sid}/{name}/{role}', 'AjaxController@ajaxaddmember');
+	// Route::post('/ajaxClass','AjaxController@index');
+	Route::get('/ajax-classroom/{sid}/{gid}/{yid}', 'AjaxController@ajaxcall');
+	Route::get('/ajax-subject/{id}', 'AjaxController@ajaxsubjectcall');
+	Route::get('/ajax-school/{id}', 'AjaxController@ajaxschoolcall');
+	Route::get('/ajax-grade/{id}', 'AjaxController@ajaxgradecall');
+	Route::get('/ajax-school_year/{id}', 'AjaxController@ajaxschoolyearcall');
 
-Route::get('/ajax-unassign/{sid}', 'AjaxController@ajaxdeletemember');
-Route::get('/ajax-reset_pass/{sid}', 'AjaxController@ajaxresetpassword');
+	Route::get('/ajax-student/{id}', 'AjaxController@ajaxstudentcall');
+	Route::get('/ajax-principle-dashboard/{uid}/{gid}/{yid}', 'AjaxController@ajaxprincipledashboard');
 
+	Route::get('/ajax-principle-dashboard-gender/{sid}/{gid}/{yid}', 'AjaxController@ajaxprinciplegender');
 
+	Route::get('/ajax-member/{sid}/{name}/{role}', 'AjaxController@ajaxaddmember');
 
-
+	Route::get('/ajax-unassign/{sid}', 'AjaxController@ajaxdeletemember');
+	Route::get('/ajax-reset_pass/{sid}', 'AjaxController@ajaxresetpassword');
 
 // Route::get('/ajax-classroom',function(){
 // 	$cid = Input::get('cid');

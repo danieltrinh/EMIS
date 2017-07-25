@@ -1,8 +1,6 @@
 	<?php 
 	$user = Auth::user(); 
-	$teacher_id = explode("@", $user->email);
-	$teacher_id = $teacher_id[0]; 
-	$current_classroom = getTeacherClassroom($teacher_id);
+	$current_classroom = getTeacherClassroom($user->id);
 	$current_classroom_id = $current_classroom[0]->id;
 	$current_classroom = \App\Classroom::findOrFail($current_classroom_id);
 	$data_aca = getStudentPerfomance($current_classroom,1);
@@ -139,31 +137,30 @@
 			});
 		}
 	});
-	
-	// var ctx = document.getElementById('teacher_subject_graph').getContext('2d');
-	// var myChart = new Chart(ctx, {
-	// 	type: 'radar',
-	// 	data: {
-	// 		labels: <?php echo json_encode($label); ?>,
-	// 		datasets: [{
-	// 			data: <?php echo json_encode($data); ?>,
-	// 			backgroundColor: 'rgba(204,178,255,0.3)',
-	// 			label: 'Subject Perfomance'
-	// 		}]
-	// 	} ,
-	// 	options: {
-	// 		scales: {
-	// 			yAxes: [{
-	// 				ticks: {
-	// 					beginAtZero:true
-	// 				}
-	// 			}]
-	// 		},
-	// 		responsive: true,
-	// 		title: {
-	// 			display: true,
-	// 			text: 'Class average perfomance by subject',
-	// 		}
-	// 	}
-	// });
+	var ctx = document.getElementById('teacher_subject_graph').getContext('2d');
+	var myChart = new Chart(ctx, {
+		type: 'radar',
+		data: {
+			labels: <?php echo json_encode($label); ?>,
+			datasets: [{
+				data: <?php echo json_encode($data); ?>,
+				backgroundColor: 'rgba(204,178,255,0.3)',
+				label: 'Subject Perfomance'
+			}]
+		} ,
+		options: {
+			scales: {
+				yAxes: [{
+					ticks: {
+						beginAtZero:true
+					}
+				}]
+			},
+			responsive: true,
+			title: {
+				display: true,
+				text: 'Class average perfomance by subject',
+			}
+		}
+	});
 </script>

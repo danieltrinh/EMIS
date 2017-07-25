@@ -97,8 +97,24 @@ function getTeacherClassroom($teacher_id)
 	FROM classrooms 
 	WHERE classrooms.`homeroom_teacher` = '".$teacher_id."' ORDER BY year DESC";
 	$result = \DB::select($sql);
+	if(empty($result) || !isset($result))
+	{
+		$result = getTidFromTeacherid($teacher_id);
+	}
 	return $result;
 }
+
+function getTidFromTeacherid($teacher_id)
+{
+	$sql = "SELECT id 
+	FROM teachers 
+	WHERE teacher_id = '".$teacher_id."'";
+	$result = \DB::select($sql);
+	$teacher = \App\Teacher::findOrFail($result[0]->id);
+	return $teacher->classrooms;
+}
+
+
 
 
 /**
@@ -339,6 +355,17 @@ function getSchoolYears($school_id)
 	if(empty($result))
 		return false;
 	return $result[0]->id;
+ }
+
+ function getParentId($sid,$role_id)
+ {
+ 	$sql="SELECT id	
+			FROM guardians
+			WHERE student_id = ".intval($sid)." AND role = ".intval($role_id);
+	$result = \DB::select($sql);	
+	if(empty($result))
+		return false;
+	return $result[0]->id;	
  }
 
 ?>
